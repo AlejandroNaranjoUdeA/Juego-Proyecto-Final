@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>canon1.jpeg</file>
+        <file>enemigo.jpeg</file>
+        <file>roca.jpeg</file>
+    </qresource>
+</RCC>
