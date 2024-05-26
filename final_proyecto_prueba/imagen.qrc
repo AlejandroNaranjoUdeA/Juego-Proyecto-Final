@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>canon inclinado.png</file>
+        <file>bala.jpeg</file>
+        <file>boats.jpg</file>
+    </qresource>
+</RCC>
