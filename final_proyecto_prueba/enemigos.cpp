@@ -9,11 +9,11 @@ enemigos::enemigos(unsigned int scale)
     //setPixmap();
     set_animations();
 
-    setX(0);
+    setX(500); //ubicar el barco enemigo en la parte superior derecha
     setY(0);
     setZValue(1);
     setPixmap(pixmap_management->get_current_pixmap(0));
-//    setPixmap(pixmap_management->get_current_pixmap(0));
+    //setPixmap(pixmap_management->get_current_pixmap(0));
 
     fisica = new fisicas(this);
     fisica->start();

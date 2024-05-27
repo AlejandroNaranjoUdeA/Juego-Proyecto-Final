@@ -21,12 +21,8 @@ private:
     QTimer *timer;
     float angle;
     float speed;
-    float xSpeed; // Velocidad horizontal
-    float ySpeed; // Velocidad vertical
     float xAmplitude; // Amplitud del movimiento horizontal
-    float yAmplitude; //Amplitud del movimiento vertical
-
-
+    float ySpeed; // Velocidad del descensol
 
 };
 

@@ -25,7 +25,9 @@ void MainWindow::setup_game_rules()
 {
     QVector<QLabel *> labels;
 
-/*    labels.push_back(ui->textEdit("Nivel"));
+/*  //Para cambiar el nombre de los textos:
+ *
+ *  labels.push_back(ui->textEdit("Nivel"));
     labels.push_back(ui->L_vidas);
     labels.push_back(ui->L_puntos);*/
 
