@@ -13,6 +13,7 @@ SOURCES += \
     disparo.cpp \
     enemigos.cpp \
     fisicas.cpp \
+    login.cpp \
     main.cpp \
     mainwindow.cpp \
     regla_juego.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     disparo.h \
     enemigos.h \
     fisicas.h \
+    login.h \
     mainwindow.h \
     regla_juego.h \
     rocas.h \
