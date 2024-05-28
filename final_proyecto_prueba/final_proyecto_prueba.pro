@@ -12,7 +12,6 @@ SOURCES += \
     canon.cpp \
     disparo.cpp \
     enemigos.cpp \
-    fisicas.cpp \
     login.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -24,7 +23,6 @@ HEADERS += \
     canon.h \
     disparo.h \
     enemigos.h \
-    fisicas.h \
     login.h \
     mainwindow.h \
     regla_juego.h \
