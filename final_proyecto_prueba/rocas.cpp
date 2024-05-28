@@ -2,15 +2,15 @@
 
 rocas::rocas(unsigned int scale)
 {
-    pixmap_management = new sprites(":/rocas.jpeg",scale);
+    pixmap_management = new sprites(":/rocas pequeñas.png",scale);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
     pixmap_management->set_design_size(rocas_pixel_x_size,
                                        rocas_pixel_y_size);
     //setPixmap();
     set_animations();
 
-    setX(0);
-    setY(0);
+    setX(400);
+    setY(200);
     setZValue(1);
     setPixmap(pixmap_management->get_current_pixmap(0));
     setPixmap(pixmap_management->get_current_pixmap(0));

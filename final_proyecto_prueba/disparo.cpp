@@ -1,4 +1,8 @@
 #include "disparo.h"
+#include "rocas.h"
+#include <QGraphicsScene>
+#include <QList>
+#include <typeinfo>
 
 disparo::disparo(unsigned int scale)
 {
@@ -14,10 +18,16 @@ disparo::disparo(unsigned int scale)
     setZValue(1);
     setPixmap(pixmap_management->get_current_pixmap(0));
 
+    // Crea un temporizador para mover el disparo
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &disparo::move);
+    timer->start(50); // Mueve el disparo cada 50 ms
+
 }
 
 disparo::~disparo(){
     delete pixmap_management;
+    delete timer;
 }
 
 QRect disparo::set_complete_sprites()
@@ -46,3 +56,27 @@ void disparo::set_animations()
 }
 
 
+void disparo::move()
+{
+    // Mueve el disparo hacia arriba
+    setPos(x(), y() - 10);
+
+    // Verifica colisiones con otros items en la escena
+    QList<QGraphicsItem *> colliding_items = collidingItems();
+    for (auto item : colliding_items)
+    {
+        // Si el disparo colisiona con una roca
+        if (typeid(*item) == typeid(rocas))
+        {
+            // Remueve ambos objetos de la escena
+            scene()->removeItem(this);
+            scene()->removeItem(item);
+
+            // Elimina los objetos
+            delete this;
+            delete item;
+
+            return;
+        }
+    }
+}

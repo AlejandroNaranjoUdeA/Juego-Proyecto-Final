@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QGraphicsPixmapItem>
+#include <QTimer>
 #include "sprites.h"
 
 
@@ -14,13 +15,16 @@ class disparo: public QObject, public QGraphicsPixmapItem
 {
 public:
     disparo(unsigned int scale);
-     void move(unsigned int key);
     ~disparo();
+
+public slots:
+    void move();
 
 private:
     QRect set_complete_sprites();
     void set_animations();
     sprites *pixmap_management;
+    QTimer *timer;
 
 };
 

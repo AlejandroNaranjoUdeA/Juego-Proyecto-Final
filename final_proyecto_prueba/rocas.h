@@ -5,8 +5,8 @@
 #include <QGraphicsPixmapItem>
 #include "sprites.h"
 
-#define rocas_pixel_x_size 72
-#define rocas_pixel_y_size 72
+#define rocas_pixel_x_size 16
+#define rocas_pixel_y_size 16
 #define rocas_speed 8
 
 class rocas: public QObject, public QGraphicsPixmapItem
