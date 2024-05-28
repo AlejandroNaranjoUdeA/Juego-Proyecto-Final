@@ -3,7 +3,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::ventanas)
 {
     ui->setupUi(this);
     setup_game_rules();
@@ -25,11 +25,10 @@ void MainWindow::setup_game_rules()
 {
     QVector<QLabel *> labels;
 
-/*  //Para cambiar el nombre de los textos:
- *
- *  labels.push_back(ui->textEdit("Nivel"));
+
+    labels.push_back(ui->L_nivel);
     labels.push_back(ui->L_vidas);
-    labels.push_back(ui->L_puntos);*/
+    labels.push_back(ui->L_puntos);
 
     game = new regla_juego(ui->graphicsView,labels);
 
@@ -38,12 +37,12 @@ void MainWindow::setup_game_rules()
 
 void MainWindow::set_mainwindow()
 {
-    ui->graphicsView->setGeometry(0,0,ui->graphicsView->width(),
-                                 ui->graphicsView->height()+blocks_pixel_y_size*game_scale_factor*2);
-    ui->graphicsView->setGeometry(0,blocks_pixel_y_size*game_scale_factor*2,
+    ui->Game_window->setGeometry(0,0,ui->graphicsView->width(),
+                                 ui->graphicsView->height()+blocks_pixel_y_size*game_scale_factor);
+    ui->graphicsView->setGeometry(0,blocks_pixel_y_size*game_scale_factor,
                                   ui->graphicsView->width(),
                                   ui->graphicsView->height());
-    setGeometry(x(),y(),ui->graphicsView->width(),ui->graphicsView->height());
+    setGeometry(x(),y(),ui->Game_window->width(),ui->graphicsView->height());
 }
 
 

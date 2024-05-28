@@ -4,7 +4,7 @@
 #include <QList>
 #include <typeinfo>
 
-disparo::disparo(unsigned int scale)
+disparo::disparo(unsigned int scale, int x, int y, int w, int h)
 {
     pixmap_management = new sprites(":/bala.jpeg",scale);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
@@ -13,21 +13,27 @@ disparo::disparo(unsigned int scale)
     //setPixmap();
     set_animations();
 
-    setX(0);
-    setY(0);
     setZValue(1);
     setPixmap(pixmap_management->get_current_pixmap(0));
 
-    // Crea un temporizador para mover el disparo
-    timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &disparo::move);
-    timer->start(50); // Mueve el disparo cada 50 ms
+    //move parabolico
+
+    x_dimension = 4;
+    y_dimension = 4;
+    this->w = w;
+    this->h = h;
+    set_initial_conditions(x, y, 15, 10); // Valores iniciales
+    time_period = 100; // Tiempo en ms
+
+    time = new QTimer(this);
+    connect(time, &QTimer::timeout, this, &disparo::time_step);
+    time->start(time_period);
 
 }
 
 disparo::~disparo(){
     delete pixmap_management;
-    delete timer;
+    delete time;
 }
 
 QRect disparo::set_complete_sprites()
@@ -56,27 +62,30 @@ void disparo::set_animations()
 }
 
 
-void disparo::move()
-{
-    // Mueve el disparo hacia arriba
-    setPos(x(), y() - 10);
+void disparo::set_initial_conditions(float x, float y, float vx, float vy) {
+    this->x = get_phisical_x(x);
+    this->y = get_phisical_y(y);
+    this->vx = vx;
+    this->vy = vy;
+}
+float disparo::get_phisical_x(float x) {
+    return x_dimension * x / w;
+}
 
-    // Verifica colisiones con otros items en la escena
-    QList<QGraphicsItem *> colliding_items = collidingItems();
-    for (auto item : colliding_items)
-    {
-        // Si el disparo colisiona con una roca
-        if (typeid(*item) == typeid(rocas))
-        {
-            // Remueve ambos objetos de la escena
-            scene()->removeItem(this);
-            scene()->removeItem(item);
+float disparo::get_phisical_y(float y) {
+    return y_dimension - y_dimension * y / h;
+}
 
-            // Elimina los objetos
-            delete this;
-            delete item;
+void disparo::time_step() {
+    // Movimiento parabólico
+    float ax = 0;
+    float ay = -9.8;
 
-            return;
-        }
-    }
+    x += vx * time_period / 1000.0;
+    y += vy * time_period / 1000.0;
+    vx += ax * time_period / 1000.0;
+    vy += ay * time_period / 1000.0;
+
+    // Actualiza la posición de la bala
+    setPos(w * x / x_dimension, h * (y_dimension - y) / y_dimension);
 }

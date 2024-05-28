@@ -18,10 +18,11 @@
 #include "disparo.h"
 
 #define game_scale_factor 3
-#define game_map_rows 13
-#define game_map_col 31
-#define game_map_size_col 16
-#define game_map_size_fil 13
+#define game_map_rows 16
+#define game_map_col 16
+#define game_map_size_col 31
+#define game_map_size_fil 31
+#define blocks_pixel_x_size 16
 #define blocks_pixel_y_size 16
 
 class regla_juego : public QObject
@@ -36,6 +37,7 @@ private:
     QGraphicsView *graph;
     QVector<QLabel *> labels;
     QGraphicsScene *scene;
+    QVector<enemigos *> enemies;
 
     enemigos *enemy;
     canon *canones;
@@ -45,15 +47,17 @@ private:
     void setup_canon();
     void setuo_enemigos();
     void setup_rocas();
-    void setup_disparo();
     void set_canon_keys();
     void setup_scene();
-
-
+    bool check_collision_with_enemy(QGraphicsPixmapItem *item);
 
     unsigned int bomberman_keys[5];
     float difficult = 0.1;
 
+    bool object_right_movement(QGraphicsPixmapItem *item, unsigned int speed);
+
+private slots:
+    void setup_disparo();
 
 signals:
     void game_scene_changed();

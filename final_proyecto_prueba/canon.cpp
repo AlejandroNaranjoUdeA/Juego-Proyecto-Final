@@ -31,7 +31,14 @@ void canon::move(unsigned int key)
         setPixmap(pixmap_management->get_current_pixmap(0));
         setY(y()+canon_speed);
     }
+    else if(key == keys[2]){
+        senal();
+    }
 
+}
+
+void canon::senal() {
+    //emit apunto_diparo();
 }
 
 canon::~canon()

@@ -6,7 +6,7 @@
 #include <QKeyEvent>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui { class ventanas; }
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -19,7 +19,7 @@ public:
     void keyPressEvent(QKeyEvent *event);
 
 private:
-    Ui::MainWindow *ui;
+    Ui::ventanas *ui;
     regla_juego *game;
 
     void setup_game_rules();

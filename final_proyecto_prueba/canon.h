@@ -12,6 +12,13 @@
 
 class canon : public QObject, public QGraphicsPixmapItem
 {
+
+signals:
+    void apunto_diparo(); // Declaración de la señal
+
+private slots:
+    void senal(); // Declaración del slot
+
 public:
     canon(unsigned int scale);
     void set_keys(unsigned int *keys);

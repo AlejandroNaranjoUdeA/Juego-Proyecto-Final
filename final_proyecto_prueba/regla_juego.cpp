@@ -10,7 +10,6 @@ regla_juego::regla_juego(QGraphicsView *graph, QVector<QLabel *> game_labels)
     setup_canon();
     setuo_enemigos();
     setup_rocas();
-    //setup_disparo();
 
 }
 regla_juego::~regla_juego()
@@ -30,6 +29,7 @@ void regla_juego::setup_canon()
     canones = new canon(game_scale_factor);
     canones->set_keys(bomberman_keys);
     scene->addItem(canones);
+    connect(canones, SIGNAL(apunto_diparo()), this, SLOT(setup_disparo()));
 
 }
 
@@ -44,8 +44,44 @@ void regla_juego::setup_rocas(){
 }
 
 void regla_juego::setup_disparo(){
-    bala = new disparo(game_scale_factor);
+    int width = canones->pixmap().width();
+    int height = canones->pixmap().height();
+
+    bala = new disparo (game_scale_factor, canones->x() + width, canones->y() - width, width, height);
+    bala->setPos(canones->x() + width, canones->y() - width);
     scene->addItem(bala);
+
+    // Crear un temporizador para verificar colisiones periódicamente
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, [=]() {
+        if (check_collision_with_enemy(bala)) {
+            // Eliminar la bala y detener el temporizador
+            scene->removeItem(bala);
+            timer->stop();
+            timer->deleteLater();
+            delete timer;
+
+            // Eliminar el barco
+            for (auto enemy : enemies) {
+                if (bala->collidesWithItem(enemy)) {
+                    scene->removeItem(enemy);
+                    enemies.removeOne(enemy);
+                    delete enemy;
+                    break;
+                }
+            }
+        }
+    });
+    timer->start(100);
+}
+
+bool regla_juego::check_collision_with_enemy(QGraphicsPixmapItem *item) {
+    for (auto enemy : enemies) { // Iterar sobre todos los enemigos
+        if (item->collidesWithItem(enemy)) {
+            return true;  // Colisión detectada
+        }
+    }
+    return false;  // No hay colisión
 }
 
 void regla_juego::set_canon_keys()
@@ -58,7 +94,7 @@ void regla_juego::set_canon_keys()
 void regla_juego::setup_scene()
 {
     graph->setGeometry(0,0,
-                       game_scale_factor*blocks_pixel_y_size*game_map_size_col,
+                       game_scale_factor*blocks_pixel_x_size*game_map_size_col,
                        game_scale_factor*blocks_pixel_y_size*game_map_size_fil);
     scene = new QGraphicsScene;
     scene->setSceneRect(0,0,graph->width()-2, graph->height()-2);
