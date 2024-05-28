@@ -2,7 +2,7 @@
 
 rocas::rocas(unsigned int scale)
 {
-    pixmap_management = new sprites(":/roca.jpeg",scale);
+    pixmap_management = new sprites(":/rocas.jpeg",scale);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
     pixmap_management->set_design_size(rocas_pixel_x_size,
                                        rocas_pixel_y_size);
