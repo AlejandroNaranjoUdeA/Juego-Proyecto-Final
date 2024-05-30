@@ -16,6 +16,7 @@
 #include "enemigos.h"
 #include "rocas.h"
 #include "disparo.h"
+#include "mina.h"
 
 #define game_scale_factor 3
 #define game_map_rows 16
@@ -43,8 +44,10 @@ private:
     canon *canones;
     rocas *roca;
     disparo *bala;
+    mina *minas;
 
     void setup_canon();
+    void setup_minas();
     void setuo_enemigos();
     void setup_rocas();
     void set_canon_keys();

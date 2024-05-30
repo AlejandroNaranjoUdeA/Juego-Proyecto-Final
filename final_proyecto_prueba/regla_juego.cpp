@@ -10,6 +10,7 @@ regla_juego::regla_juego(QGraphicsView *graph, QVector<QLabel *> game_labels)
     setup_canon();
     setuo_enemigos();
     setup_rocas();
+    setup_minas();
 
 }
 regla_juego::~regla_juego()
@@ -31,6 +32,11 @@ void regla_juego::setup_canon()
     scene->addItem(canones);
     connect(canones, SIGNAL(apunto_diparo()), this, SLOT(setup_disparo()));
 
+}
+
+void regla_juego::setup_minas(){
+    minas= new mina(game_scale_factor);
+    scene->addItem(minas);
 }
 
 void regla_juego::setuo_enemigos(){
