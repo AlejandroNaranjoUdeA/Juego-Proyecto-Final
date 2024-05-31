@@ -1,4 +1,4 @@
-#include <QScreen> //hallar tamano de la interfaz
+#include <QScreen>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -12,12 +12,31 @@ MainWindow::MainWindow(QWidget *parent)
 
     gameWindow1 = ui->Game_window;
     gameWindow2 = ui->Game_window_2;
+    gameWindow3 = ui->Game_window_3;
 
-    connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::boton_oprimir);
+    connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::jugar_oprimir);
+    connect(ui->pushButton_2, &QPushButton::clicked, this, &MainWindow::registrarse_oprimir); // Conectar el nuevo botón
+
+    // Configurar el tamaño de gameWindow2 para que sea grande desde el inicio
+    QSize screenSize = QApplication::primaryScreen()->availableSize();
+    gameWindow2->setGeometry(0, 0, screenSize.width(), screenSize.height());
+
+    ui->backgroundLabel->setPixmap(QPixmap(":/fondo menu principal.jpg"));
+    ui->backgroundLabel->setScaledContents(true); // Para escalar la imagen al tamaño del QLabel
+    ui->backgroundLabel->setStyleSheet("background-color: rgba(255, 255, 255, 0);"); // Hacer QLabel transparente
+
+    // Hacer que gameWindow2 tenga fondo transparente
+    gameWindow2->setAttribute(Qt::WA_TranslucentBackground);
+    gameWindow2->setStyleSheet("background: transparent;");
+
+
+    // Asegurarse de que backgroundLabel esté detrás de otros widgets
+    ui->backgroundLabel->lower(); // Mover el QLabel al fondo
 
     // Mostrar solo la ventana de inicio al comienzo
     gameWindow1->hide();
     gameWindow2->show();
+    gameWindow3->hide();
 }
 
 MainWindow::~MainWindow()
@@ -56,11 +75,12 @@ void MainWindow::set_mainwindow()
     setGeometry(x(),y(),ui->Game_window->width(),ui->graphicsView->height());
 }
 
-void MainWindow::boton_oprimir()
+void MainWindow::jugar_oprimir()
 {
     gameWindow2->hide();
     gameWindow1->show();
 }
+
 
 void MainWindow::showGameWindow2()
 {
@@ -70,12 +90,14 @@ void MainWindow::showGameWindow2()
     // Configurar el tamaño de gameWindow2 para que ocupe toda la pantalla
     gameWindow2->setGeometry(0, 0, screenSize.width(), screenSize.height());
 
-    graph->setGeometry(0,0,
-                       game_scale_factor*blocks_pixel_x_size*game_map_size_col,
-                       game_scale_factor*blocks_pixel_y_size*game_map_size_fil);
+    // Ajustar el tamaño del QLabel de fondo para que cubra toda la pantalla
+    ui->backgroundLabel->setGeometry(0, 0, screenSize.width(), screenSize.height());
+
+    // Ajustar el tamaño del QGraphicsView y la QGraphicsScene
+    ui->graphicsView->setGeometry(0, 0, screenSize.width(), screenSize.height());
     scene = new QGraphicsScene;
-    scene->setSceneRect(0,0,graph->width()-2, graph->height()-2);
-    graph->setScene(scene);
+    scene->setSceneRect(0, 0, screenSize.width(), screenSize.height());
+    ui->graphicsView->setScene(scene);
 
     emit game_scene_changed();
 
@@ -83,4 +105,9 @@ void MainWindow::showGameWindow2()
     gameWindow2->show();
 }
 
+void MainWindow::registrarse_oprimir()
+{
+    gameWindow2->hide();
+    gameWindow3->show(); // Mostrar Game_window_3
+}
 

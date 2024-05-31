@@ -28,12 +28,14 @@ private:
     regla_juego *game;
     QWidget *gameWindow1;
     QWidget *gameWindow2;
+    QWidget *gameWindow3;
 
     void setup_game_rules();
 
 private slots:
     void set_mainwindow();
-    void boton_oprimir();
+    void jugar_oprimir();
+    void registrarse_oprimir(); // Nueva función para el botón de registrarse
 
 signals:
     void game_scene_changed();

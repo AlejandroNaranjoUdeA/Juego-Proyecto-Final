@@ -131,12 +131,25 @@
       <string>JUEGO CAÑONES</string>
      </property>
     </widget>
+    <widget class="QLabel" name="backgroundLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>251</width>
+       <height>211</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="Game_window_3" native="true">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>400</y>
+      <x>390</x>
+      <y>330</y>
       <width>291</width>
       <height>261</height>
      </rect>
@@ -168,7 +181,7 @@
      <property name="geometry">
       <rect>
        <x>110</x>
-       <y>70</y>
+       <y>60</y>
        <width>51</width>
        <height>21</height>
       </rect>
@@ -181,7 +194,7 @@
      <property name="geometry">
       <rect>
        <x>80</x>
-       <y>90</y>
+       <y>80</y>
        <width>113</width>
        <height>24</height>
       </rect>
@@ -191,7 +204,7 @@
      <property name="geometry">
       <rect>
        <x>110</x>
-       <y>130</y>
+       <y>110</y>
        <width>71</width>
        <height>21</height>
       </rect>
@@ -204,10 +217,23 @@
      <property name="geometry">
       <rect>
        <x>80</x>
-       <y>160</y>
+       <y>130</y>
        <width>113</width>
        <height>24</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_3">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>170</y>
+       <width>80</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Iniciar Sesion</string>
      </property>
     </widget>
    </widget>
