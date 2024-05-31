@@ -26,16 +26,27 @@ private:
 
     Ui::ventanas *ui;
     regla_juego *game;
+
+    //juego:
     QWidget *gameWindow1;
+    //menu:
     QWidget *gameWindow2;
+    //registro:
     QWidget *gameWindow3;
+
+    //niveles del juego:
+    QWidget *gameWindow4;
+    QWidget *gameWindow5;
+
 
     void setup_game_rules();
 
 private slots:
     void set_mainwindow();
-    void jugar_oprimir();
-    void registrarse_oprimir(); // Nueva función para el botón de registrarse
+    void jugar_oprimir(); //funcion para el boton jugar
+    void registrarse_oprimir(); //funcion para el boton registrarse
+    void iniciar_secion();
+    void login();
 
 signals:
     void game_scene_changed();

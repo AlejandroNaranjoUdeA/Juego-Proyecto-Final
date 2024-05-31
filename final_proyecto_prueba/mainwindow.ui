@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>814</width>
-    <height>667</height>
+    <width>1260</width>
+    <height>1040</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -87,8 +87,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>271</width>
-       <height>231</height>
+       <width>291</width>
+       <height>261</height>
       </rect>
      </property>
     </widget>
@@ -136,8 +136,8 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>251</width>
-       <height>211</height>
+       <width>271</width>
+       <height>241</height>
       </rect>
      </property>
      <property name="text">
@@ -148,8 +148,8 @@
    <widget class="QWidget" name="Game_window_3" native="true">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>330</y>
+      <x>20</x>
+      <y>340</y>
       <width>291</width>
       <height>261</height>
      </rect>
@@ -234,6 +234,66 @@
      </property>
      <property name="text">
       <string>Iniciar Sesion</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="Game_window_4" native="true">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>340</y>
+      <width>291</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <widget class="QGraphicsView" name="graphicsView_5">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>241</width>
+       <height>221</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="Game_window_5" native="true">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>330</y>
+      <width>291</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <widget class="QGraphicsView" name="graphicsView_6">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>241</width>
+       <height>221</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="Game_window_6" native="true">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>620</y>
+      <width>291</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <widget class="QGraphicsView" name="graphicsView_7">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>241</width>
+       <height>221</height>
+      </rect>
      </property>
     </widget>
    </widget>

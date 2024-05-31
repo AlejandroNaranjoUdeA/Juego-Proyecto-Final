@@ -19,10 +19,10 @@
 #include "mina.h"
 
 #define game_scale_factor 3
-#define game_map_rows 16
-#define game_map_col 16
-#define game_map_size_col 31
-#define game_map_size_fil 31
+#define game_map_rows 12
+#define game_map_col 17
+#define game_map_size_col 16
+#define game_map_size_fil 16
 #define blocks_pixel_x_size 16
 #define blocks_pixel_y_size 16
 

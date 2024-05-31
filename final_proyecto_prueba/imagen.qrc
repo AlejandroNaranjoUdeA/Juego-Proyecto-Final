@@ -7,5 +7,7 @@
         <file>rocas pequeñas.png</file>
         <file>mina.png</file>
         <file>fondo menu principal.jpg</file>
+        <file>level1 imagen juego.jpg</file>
+        <file>level2 imagen juego.jpg</file>
     </qresource>
 </RCC>

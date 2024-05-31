@@ -1,6 +1,12 @@
-#include <QScreen>
+#include <QScreen> //para hallar el tamaño
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
+//para el manejo de archivos
+#include <QFile>
+#include <QTextStream>
+#include <QMessageBox> //mostrar mensajes emergentes
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::jugar_oprimir);
     connect(ui->pushButton_2, &QPushButton::clicked, this, &MainWindow::registrarse_oprimir); // Conectar el nuevo botón
+    connect(ui->pushButton_3, &QPushButton::clicked, this, &MainWindow::login); //concectar con el boton de iniciar sesion para guardar la informacion
+    connect(ui->pushButton_3, &QPushButton::clicked, this, &MainWindow::iniciar_secion); // conectar con el boton iniciar sesion para iniciar el juego
 
     // Configurar el tamaño de gameWindow2 para que sea grande desde el inicio
     QSize screenSize = QApplication::primaryScreen()->availableSize();
@@ -73,7 +81,9 @@ void MainWindow::set_mainwindow()
                                   ui->graphicsView->width(),
                                   ui->graphicsView->height());
     setGeometry(x(),y(),ui->Game_window->width(),ui->graphicsView->height());
+
 }
+
 
 void MainWindow::jugar_oprimir()
 {
@@ -84,23 +94,6 @@ void MainWindow::jugar_oprimir()
 
 void MainWindow::showGameWindow2()
 {
-    // Obtener el tamaño de la pantalla
-    QSize screenSize = QApplication::primaryScreen()->availableSize();
-
-    // Configurar el tamaño de gameWindow2 para que ocupe toda la pantalla
-    gameWindow2->setGeometry(0, 0, screenSize.width(), screenSize.height());
-
-    // Ajustar el tamaño del QLabel de fondo para que cubra toda la pantalla
-    ui->backgroundLabel->setGeometry(0, 0, screenSize.width(), screenSize.height());
-
-    // Ajustar el tamaño del QGraphicsView y la QGraphicsScene
-    ui->graphicsView->setGeometry(0, 0, screenSize.width(), screenSize.height());
-    scene = new QGraphicsScene;
-    scene->setSceneRect(0, 0, screenSize.width(), screenSize.height());
-    ui->graphicsView->setScene(scene);
-
-    emit game_scene_changed();
-
     gameWindow1->hide();
     gameWindow2->show();
 }
@@ -109,5 +102,40 @@ void MainWindow::registrarse_oprimir()
 {
     gameWindow2->hide();
     gameWindow3->show(); // Mostrar Game_window_3
+}
+
+void MainWindow::login()
+{
+    QString username = ui->lineEdit->text();
+    QString password = ui->lineEdit_2->text();
+
+    // Verificar si los campos de usuario y contraseña no están vacíos
+    if (username.isEmpty() || password.isEmpty()) {
+        //muestra una ventana emergente como advertencia si el espacio esta en blanco
+        QMessageBox::warning(this, "Error", "Por favor ingrese un nombre de usuario y una contraseña.");
+            return;
+    }
+
+    QFile file("registro.txt");
+
+    // Verificar si el archivo se puede abrir en modo de añadido (append)
+    if (!file.open(QIODevice::Append | QIODevice::Text)) {
+        QMessageBox::warning(this, "Error", "No se pudo abrir el archivo para guardar el usuario.");
+        return;
+    }
+
+    QTextStream out(&file);
+    out << username << "," << password << "\n"; //guarda el usuario y contraseña
+
+    QMessageBox::information(this, "Registro", "Usuario registrado exitosamente."); //muestra una ventana emergente
+
+
+    //continuacion....
+
+}
+
+void MainWindow::iniciar_secion(){
+    gameWindow3->hide();
+    gameWindow1->show();
 }
 
