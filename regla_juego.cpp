@@ -9,6 +9,7 @@ regla_juego::regla_juego(QGraphicsView *graph, QVector<QLabel *> game_labels)
     generate_fondo();
     setup_canon();
     labels[1]->setText("vidas: 7");
+    labels[2]->setText("puntos: 0");
 
 }
 
@@ -16,7 +17,6 @@ regla_juego::~regla_juego()
 {
     delete scene;
 }
-
 
 void regla_juego::generate_fondo() {
     for (unsigned int fil = 0; fil < game_map_rows; fil++) {
@@ -32,8 +32,8 @@ void regla_juego::generate_fondo() {
             scene->addItem(blocks[fil][col]);
         }
     }
-    //generate_nivel1();
-    generate_nivel2();
+    generate_nivel1();
+    //generate_nivel2();
     //generate_nivel3();
 
 }
@@ -102,7 +102,9 @@ void regla_juego::generate_nivel3()
 void regla_juego::setup_enemigos(int fil, int col)
 {
     enemigos *enemy = new enemigos(game_scale_factor);
-    enemy->setPos(game_scale_factor*col * game_map_size_col,game_scale_factor* fil * game_map_size_fil);
+    int x =game_scale_factor*col * game_map_size_col;
+    int y =game_scale_factor* fil * game_map_size_fil;
+    enemy->set_initial_conditions(x, y, 1, 1);
     scene->addItem(enemy);
     enemies.append(enemy);
 }
@@ -115,10 +117,7 @@ void regla_juego::setup_rocas(int fil, int col)
     rocars.append(roca);
 }
 
-void regla_juego::told_enemy()
-{
 
-}
 void regla_juego::key_event(QKeyEvent *event)
 {
     bool is_valid = true;
@@ -129,6 +128,13 @@ void regla_juego::key_event(QKeyEvent *event)
     canones->move(event->key(),is_valid);
 
 }
+void regla_juego::set_canon_keys()
+{
+    canon_keys[0] = Qt::Key_W;
+    canon_keys[1] = Qt::Key_S;
+    canon_keys[2] = Qt::Key_K;
+}
+
 void regla_juego::setup_canon()
 {
     set_canon_keys();
@@ -162,33 +168,47 @@ void regla_juego::setup_disparo() {
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [=]() {
         if (check_collision_with_roca(bala)){
-            scene->removeItem(bala);
-            timer->stop();
-            timer->deleteLater();
-
+            handle_roca_collision(bala, timer);
         }
         if (check_collision_with_enemy(bala)) {
-            // Eliminar la bala y detener el temporizador
-            scene->removeItem(bala);
-            timer->stop();
-            timer->deleteLater();            
-            delete timer;
-
-            // Eliminar el barco
-            for (auto enemy : enemies) {
-                if (bala->collidesWithItem(enemy)) {
-                    scene->removeItem(enemy);
-                    enemies.removeOne(enemy);
-                    delete enemy;
-                    break;
-                }
-            }
+            handle_barco_collision(bala, timer);
         }
     });
     timer->start(100);
 }
 
+void regla_juego::handle_barco_collision(disparo *bala, QTimer *timer) {
+    scene->removeItem(bala);
+    timer->stop();
+    timer->deleteLater();
+    delete timer;
+    // Eliminar el barco
+    for (auto enemy : enemies) {
+        if (bala->collidesWithItem(enemy)) {
+            scene->removeItem(enemy);
+            enemies.removeOne(enemy);
+            delete enemy;
+            break;
+        }
+    }
+    int lives = get_points_from_label();
+    if (lives >= 0)
+    {
+        update_point_in_label(lives + 1000);
+    }
+}
 
+void regla_juego::handle_roca_collision(disparo *bala, QTimer *timer) {
+    // Eliminar la bala y detener el temporizador
+    scene->removeItem(bala);
+    timer->stop();
+    timer->deleteLater();
+    int lives = get_lives_from_label();
+    if (lives > 0)
+    {
+        update_lives_in_label(lives - 1);
+    }
+}
 
 bool regla_juego::check_collision_with_enemy(QGraphicsPixmapItem *item) {
     for (auto enemy : enemies) { // Iterar sobre todos los enemigos
@@ -200,7 +220,6 @@ bool regla_juego::check_collision_with_enemy(QGraphicsPixmapItem *item) {
 }
 
 
-
 bool regla_juego::check_collision_with_roca(QGraphicsPixmapItem *item) {
     for (auto roca : rocars) { // Iterar sobre todas las rocas
         if (item->collidesWithItem(roca)) {
@@ -209,8 +228,6 @@ bool regla_juego::check_collision_with_roca(QGraphicsPixmapItem *item) {
     }
     return false;
 }
-
-
 
 
 bool regla_juego::object_down_movement(QGraphicsPixmapItem *item, unsigned int speed)
@@ -233,9 +250,6 @@ bool regla_juego::object_down_movement(QGraphicsPixmapItem *item, unsigned int s
 }
 
 
-
-
-
 bool regla_juego::object_up_movement(QGraphicsPixmapItem *item, unsigned int speed)
 {
     int xf1, xf2, yf1, yf2, width;
@@ -254,19 +268,47 @@ bool regla_juego::object_up_movement(QGraphicsPixmapItem *item, unsigned int spe
     return valid_1 && valid_2;
 }
 
-
-
-
-void regla_juego::set_canon_keys()
+int regla_juego::get_lives_from_label()
 {
-    canon_keys[0] = Qt::Key_W;
-    canon_keys[1] = Qt::Key_S;
-    canon_keys[2] = Qt::Key_K;
+    QString text = labels[1]->text();
+    QStringList parts = text.split(": ");
+    if (parts.size() == 2)
+    {
+        bool ok;
+        int lives = parts[1].toInt(&ok);
+        if (ok)
+        {
+            return lives;
+        }
+    }
+    return 0; // Default en caso de error
 }
 
+void regla_juego::update_lives_in_label(int lives)
+{
+    labels[1]->setText("vidas: " + QString::number(lives));
+}
 
+int regla_juego::get_points_from_label()
+{
+    QString text = labels[2]->text();
+    QStringList parts = text.split(": ");
+    if (parts.size() == 2)
+    {
+        bool ok;
+        int point = parts[1].toInt(&ok);
+        if (ok)
+        {
+            return point;
+        }
+    }
+    return 0; // Default en caso de error
+}
 
-
+void regla_juego::update_point_in_label(int lives)
+{
+    labels[2]->setText("puntos: " + QString::number(lives));
+}
 
 void regla_juego::setup_scene()
 {
@@ -280,23 +322,7 @@ void regla_juego::setup_scene()
     emit game_scene_changed();
 }
 
-
-
-
-
-
-
-
 void regla_juego::setup_minas(){
     minas= new mina(game_scale_factor);
     scene->addItem(minas);
 }
-
-
-
-
-
-
-
-
-

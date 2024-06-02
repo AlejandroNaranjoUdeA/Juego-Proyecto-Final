@@ -17,8 +17,8 @@ class enemigos: public QObject, public QGraphicsPixmapItem
 
 public:
     enemigos(unsigned int scale);
-    void move(unsigned int key);
     ~enemigos();
+    void set_initial_conditions(float x, float y, float vx, float vy);
 
 private slots:
     void updatePosicion();
@@ -28,9 +28,14 @@ private:
     void set_animations();
     sprites *pixmap_management;
     QTimer *timer;
+    void apply_physics(float ax, float ay);
     float angle;
     float speed;
-    float xAmplitude; // Amplitud del movimiento horizontal
-    float ySpeed; // Velocidad del descenso
+    float xAmplitude;
+    float ySpeed;
+    float acceleration;
+    float friction;
+    QPointF velocity;
+    float time_period;
 };
 #endif // ENEMIGOS_H

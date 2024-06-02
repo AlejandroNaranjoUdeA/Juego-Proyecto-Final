@@ -56,13 +56,15 @@ private:
 
     void setup_enemigos( int fil, int col);
     void setup_rocas(int fil,  int col);
-    void told_enemy();
+
 
     void setup_canon();
 
     void setup_minas();
     void set_canon_keys();
     void setup_scene();
+    void handle_barco_collision(disparo *bala, QTimer *timer);
+    void handle_roca_collision(disparo *bala, QTimer *timer);
     bool check_collision_with_enemy(QGraphicsPixmapItem *item);
     bool check_collision_with_roca(QGraphicsPixmapItem *item);
 
@@ -70,6 +72,10 @@ private:
 
     bool object_down_movement(QGraphicsPixmapItem *item, unsigned int speed);
     bool object_up_movement(QGraphicsPixmapItem *item, unsigned int speed);
+    int get_lives_from_label();
+    void update_lives_in_label(int lives);
+    int get_points_from_label();
+    void update_point_in_label(int lives);
 private slots:
     void setup_disparo();
     void set_focus(QGraphicsPixmapItem *item, bool is_x_focus, bool is_y_focus);

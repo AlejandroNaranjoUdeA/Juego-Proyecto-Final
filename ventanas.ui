@@ -64,56 +64,7 @@
       <rect>
        <x>200</x>
        <y>10</y>
-       <width>49</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>puntos: 0</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="Game_window_2" native="true">
-    <property name="geometry">
-     <rect>
-      <x>600</x>
-      <y>90</y>
-      <width>301</width>
-      <height>201</height>
-     </rect>
-    </property>
-    <widget class="QLabel" name="L_nivel_2">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>30</y>
-       <width>49</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>nivel</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="L_vidas_2">
-     <property name="geometry">
-      <rect>
-       <x>180</x>
-       <y>30</y>
-       <width>49</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>vidas</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="L_puntos_2">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>30</y>
-       <width>49</width>
+       <width>111</width>
        <height>16</height>
       </rect>
      </property>
