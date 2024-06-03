@@ -14,7 +14,7 @@ disparo::disparo(unsigned int scale, int x, int y, int w, int h)
     set_animations();
 
     setZValue(1);
-    setPixmap(pixmap_management->get_current_pixmap(0));
+    setPixmap(pixmap_management->get_current_pixmap(0,disparo_pixel_x_size,disparo_pixel_y_size));
 
     //move parabolico
 
@@ -60,7 +60,6 @@ void disparo::set_animations()
 
     pixmap_management->add_new_animation(dim,0);
 }
-
 
 void disparo::set_initial_conditions(float x, float y, float vx, float vy) {
     this->x = get_phisical_x(x);

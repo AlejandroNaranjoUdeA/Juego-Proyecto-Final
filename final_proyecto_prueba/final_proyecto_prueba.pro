@@ -11,8 +11,8 @@ CONFIG += c++17
 SOURCES += \
     canon.cpp \
     disparo.cpp \
+    ecenario.cpp \
     enemigos.cpp \
-    login.cpp \
     main.cpp \
     mainwindow.cpp \
     mina.cpp \
@@ -23,8 +23,8 @@ SOURCES += \
 HEADERS += \
     canon.h \
     disparo.h \
+    ecenario.h \
     enemigos.h \
-    login.h \
     mainwindow.h \
     mina.h \
     regla_juego.h \

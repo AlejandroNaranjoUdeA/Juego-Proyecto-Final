@@ -12,7 +12,7 @@ public:
     void set_design_size(unsigned int x, unsigned int y);
     void cut_character_pixmap(QRect size);
     void add_new_animation(QRect size, unsigned int number);
-    QPixmap get_current_pixmap(unsigned int animation);
+    QPixmap get_current_pixmap(unsigned int animation, int original_width, int original_height);
     QPixmap get_fixed_image(QRect size);
 
 private:

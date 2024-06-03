@@ -13,7 +13,6 @@ class rocas: public QObject, public QGraphicsPixmapItem
 {
 public:
     rocas(unsigned int scale);
-    void move(unsigned int key);
     ~rocas();
 
 private:

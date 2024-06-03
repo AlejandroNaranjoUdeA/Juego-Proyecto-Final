@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "regla_juego.h"
 #include <QKeyEvent>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ventanas; }
@@ -17,8 +18,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void keyPressEvent(QKeyEvent *event);
-
-    void showGameWindow2();
 
 private:
     QGraphicsView *graph;
@@ -36,7 +35,8 @@ private:
 
     //niveles del juego:
     QWidget *gameWindow4;
-    QWidget *gameWindow5;
+
+    QTimer *timer; //se declara el temporizador para las ventanas de los niveles
 
 
     void setup_game_rules();
@@ -47,6 +47,9 @@ private slots:
     void registrarse_oprimir(); //funcion para el boton registrarse
     void iniciar_secion();
     void login();
+    void showGameWindow1(); // Slot para cambiar a gameWindow1 después de 5 segundos
+    void showGameWindowAfterLogin(); // Slot para manejar la lógica de transición después del login
+
 
 signals:
     void game_scene_changed();

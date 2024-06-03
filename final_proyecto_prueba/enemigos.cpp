@@ -11,7 +11,7 @@ enemigos::enemigos(unsigned int scale)
     setX(500); // ubicar el barco enemigo en la parte superior derecha
     setY(0);
     setZValue(1);
-    setPixmap(pixmap_management->get_current_pixmap(0));
+    setPixmap(pixmap_management->get_current_pixmap(0, enemy_pixel_x_size,enemy_pixel_y_size));
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &enemigos::updatePosition);

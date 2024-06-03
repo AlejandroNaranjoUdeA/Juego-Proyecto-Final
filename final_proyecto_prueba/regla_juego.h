@@ -12,6 +12,7 @@
 #include <QObject>
 #include <QTimer>
 
+#include "ecenario.h"
 #include "canon.h"
 #include "enemigos.h"
 #include "rocas.h"
@@ -38,7 +39,9 @@ private:
     QGraphicsView *graph;
     QVector<QLabel *> labels;
     QGraphicsScene *scene;
+    ecenario *blocks[game_map_rows][game_map_col];
     QVector<enemigos *> enemies;
+    QVector<rocas *> rocars;
 
     enemigos *enemy;
     canon *canones;
@@ -46,21 +49,31 @@ private:
     disparo *bala;
     mina *minas;
 
+    void generate_fondo();
+    void generate_nivel1();
+    void generate_nivel2();
+    void generate_nivel3();
+
+    void setup_enemigos(int fil, int col);
+    void setup_rocas(int fil, int col);
+
     void setup_canon();
+
     void setup_minas();
-    void setuo_enemigos();
-    void setup_rocas();
     void set_canon_keys();
     void setup_scene();
     bool check_collision_with_enemy(QGraphicsPixmapItem *item);
+    bool check_collision_with_roca(QGraphicsPixmapItem *item);
 
-    unsigned int bomberman_keys[5];
+    unsigned int canon_keys[3];
     float difficult = 0.1;
 
-    bool object_right_movement(QGraphicsPixmapItem *item, unsigned int speed);
+    bool object_down_movement(QGraphicsPixmapItem *item, unsigned int speed);
+    bool object_up_movement(QGraphicsPixmapItem *item, unsigned int speed);
 
 private slots:
     void setup_disparo();
+    void set_focus(QGraphicsPixmapItem *item, bool is_x_focus, bool is_y_focus);
 
 signals:
     void game_scene_changed();

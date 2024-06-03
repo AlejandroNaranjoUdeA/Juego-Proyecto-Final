@@ -9,10 +9,11 @@ canon::canon(unsigned int scale) {
     //setPixmap();
     set_animations();
 
-    setX(0);
-    setY(0);
+    setX(1*scale);
+    setY(1*canon_pixel_y_size*scale);
+
     setZValue(1);
-    setPixmap(pixmap_management->get_current_pixmap(0));
+    setPixmap(pixmap_management->get_current_pixmap(0,canon_pixel_x_size, canon_pixel_y_size));
 
 }
 
@@ -21,24 +22,34 @@ void canon::set_keys(unsigned int *keys)
     for(unsigned int i=0;i<4;i++) this->keys[i] = keys[i];
 }
 
-void canon::move(unsigned int key)
+void canon::move(unsigned int key, bool is_valid)
 {
     if(key == keys[0]){
-        setPixmap(pixmap_management->get_current_pixmap(0));
-        setY(y()-canon_speed);
+        setPixmap(pixmap_management->get_current_pixmap(0,canon_pixel_x_size,canon_pixel_y_size));
+        if(is_valid){
+            emit is_moving(this,true,true);
+            setY(y()-canon_speed);
+        }
     }
     else if(key == keys[1]){
-        setPixmap(pixmap_management->get_current_pixmap(0));
-        setY(y()+canon_speed);
+        setPixmap(pixmap_management->get_current_pixmap(0,canon_pixel_x_size,canon_pixel_y_size));
+        if (is_valid){
+            setY(y()+canon_speed);
+            emit is_moving(this,true,true);
+        }
     }
-    else if(key == keys[2]){
-        senal();
+    else if (key == keys[2]) {
+        if (is_valid)senal();
     }
 
 }
 
 void canon::senal() {
-    //emit apunto_diparo();
+    emit apunto_diparo();
+}
+
+void canon::apunto_diparo(){
+
 }
 
 canon::~canon()
@@ -69,5 +80,9 @@ void canon::set_animations()
     dim.setWidth(1*canon_pixel_x_size);
 
     pixmap_management->add_new_animation(dim,0);
+}
+
+void canon::is_moving(QGraphicsPixmapItem *, bool, bool){
+
 }
 

@@ -12,8 +12,8 @@ rocas::rocas(unsigned int scale)
     setX(400);
     setY(200);
     setZValue(1);
-    setPixmap(pixmap_management->get_current_pixmap(0));
-    setPixmap(pixmap_management->get_current_pixmap(0));
+    setPixmap(pixmap_management->get_current_pixmap(0, rocas_pixel_x_size,rocas_pixel_y_size));
+    //setPixmap(pixmap_management->get_current_pixmap(0));
 }
 
 rocas::~rocas(){
@@ -26,9 +26,9 @@ void rocas::set_animations(){
     dim.setX(0);
     dim.setY(0);
     dim.setHeight(1*rocas_pixel_y_size);
-    dim.setWidth(4*rocas_pixel_x_size);
+    dim.setWidth(3*rocas_pixel_x_size);
 
-    pixmap_management->add_new_animation(dim,4);
+    pixmap_management->add_new_animation(dim,3);
 }
 
 QRect rocas::set_complete_sprites()
@@ -38,7 +38,7 @@ QRect rocas::set_complete_sprites()
     dim.setX(0);
     dim.setY(0);
     dim.setHeight(1*rocas_pixel_y_size);
-    dim.setWidth(1*rocas_pixel_x_size);
+    dim.setWidth(3*rocas_pixel_x_size);
 
     return dim;
 }

@@ -27,12 +27,13 @@ private:
     QRect set_complete_sprites();
     sprites *pixmap_management;
 
-    //para las fisicas del movimiento circular:
     QTimer *timer;
-    float angle;
-    float radius;
-    float centerX, centerY;
-    float speed;
+
+    QPointF position;          // Posición de la mina
+    QPointF velocity;          // Velocidad de la mina
+    float angularVelocity;     // Velocidad angular
+    float acceleration;        // Aceleración angular
+    float tangentialForce;     // Fuerza tangencial
 };
 
 #endif // MINA_H

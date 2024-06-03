@@ -1,6 +1,6 @@
 #include "mina.h"
 
-mina::mina(unsigned int scale): angle(0), radius(100), centerX(280), centerY(300), speed(0.05)
+mina::mina(unsigned int scale): position(280, 300), velocity(0, 0), angularVelocity(0.05), acceleration(0.001), tangentialForce(0.2)
 {
     pixmap_management = new sprites(":/mina.png",scale);
                         pixmap_management->cut_character_pixmap(set_complete_sprites());
@@ -9,11 +9,11 @@ mina::mina(unsigned int scale): angle(0), radius(100), centerX(280), centerY(300
     //setPixmap();
     set_animations();
 
-    setX(centerX + radius * cos(angle));
-    setY(centerY + radius * sin(angle));
+    setX(280);
+    setY(300);
     setZValue(1);
-    setPixmap(pixmap_management->get_current_pixmap(0));
-    setPixmap(pixmap_management->get_current_pixmap(0));
+    setPixmap(pixmap_management->get_current_pixmap(0, mina_pixel_x_size,mina_pixel_y_size));
+    //setPixmap(pixmap_management->get_current_pixmap(0));
 
     // Configurar el temporizador para actualizar la posición
     timer = new QTimer(this);
@@ -51,12 +51,24 @@ QRect mina::set_complete_sprites()
 }
 
 void mina::updatePosition() {
-    angle += speed;
-    if (angle >= 2 * M_PI) {
-        angle -= 2 * M_PI;
-    }
-    float x = centerX + radius * cos(angle);
-    float y = centerY + radius * sin(angle);
-    setPos(x, y);
+    // Actualizar la velocidad angular y aplicar aceleración
+    angularVelocity += acceleration;
+
+    // Calcular la componente tangencial de la fuerza
+    float tangentialComponent = tangentialForce;
+
+    // Calcular la componente radial de la fuerza
+    float radialComponent = 0;  // No hay componente radial en este ejemplo
+
+    // Calcular la fuerza resultante
+    QPointF force(tangentialComponent, radialComponent);
+
+    // Aplicar la fuerza a la velocidad
+    velocity += force;
+
+    // Calcular la nueva posición usando la velocidad
+    position += velocity;
+
+    setPos(position);
 }
 
