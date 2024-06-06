@@ -39,7 +39,9 @@ void canon::move(unsigned int key, bool is_valid)
         }
     }
     else if (key == keys[2]) {
-        if (is_valid)senal();
+        if (is_valid){
+            senal();
+        }
     }
 
 }

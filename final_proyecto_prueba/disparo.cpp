@@ -33,7 +33,6 @@ disparo::disparo(unsigned int scale, int x, int y, int w, int h)
 
 disparo::~disparo(){
     delete pixmap_management;
-    delete time;
 }
 
 QRect disparo::set_complete_sprites()

@@ -7,8 +7,8 @@
 #include "sprites.h"
 
 
-#define disparo_pixel_x_size 23
-#define disparo_pixel_y_size 23
+#define disparo_pixel_x_size 16
+#define disparo_pixel_y_size 16
 #define disparo_speed 8
 
 class disparo: public QObject, public QGraphicsPixmapItem
