@@ -107,7 +107,7 @@ void MainWindow::jugar_oprimir()
 {
     gameWindow2->hide();
     gameWindow4->show();
-    timer->start(5000); //tiempo en que aparezca gameWindow4
+    timer->start(3000); //tiempo en que aparezca gameWindow4
 }
 
 void MainWindow::showGameWindow1()
@@ -156,7 +156,7 @@ void MainWindow::login()
 void MainWindow::iniciar_secion(){
     gameWindow3->hide();
     gameWindow4->show();
-    timer->start(5000); // Iniciar el temporizador para 5 segundos
+    timer->start(3000); // Iniciar el temporizador para 5 segundos
     disconnect(timer, &QTimer::timeout, this, &MainWindow::showGameWindow1); // Desconectar cualquier otra conexión del temporizador
     connect(timer, &QTimer::timeout, this, &MainWindow::showGameWindowAfterLogin); // Conectar el temporizador a showGameWindowAfterLogin
 }
