@@ -21,7 +21,7 @@
 
 #define game_scale_factor 3
 #define game_map_rows 12
-#define game_map_col 17
+#define game_map_col 36
 #define game_map_size_col 16
 #define game_map_size_fil 16
 
@@ -48,8 +48,9 @@ private:
     mina *minas;
     disparo *bala;
     canon *canones;
-    QGraphicsItem* elemento;
+
     int enemies_eliminated;
+    QString get_nivel_text() const;
     void generate_fondo();
     void generate_nivel1();
     void generate_nivel2();
@@ -61,8 +62,7 @@ private:
     QTimer *timek;
     void move_object_right(QGraphicsPixmapItem *item, unsigned int speed);
     void setup_canon();
-
-    void setup_minas();
+    void setup_minas(int fil, int col);
     void set_canon_keys();
     void setup_scene();
     void handle_barco_collision(disparo *bala, QTimer *timer);
@@ -72,6 +72,7 @@ private:
     bool check_collision_with_roca(QGraphicsPixmapItem *item);
     unsigned int canon_keys[3];
     bool object_right_movement(QGraphicsPixmapItem *item, unsigned int speed);
+    bool object_right_movement_roca(QGraphicsPixmapItem *item, unsigned int speed);
     bool object_down_movement(QGraphicsPixmapItem *item, unsigned int speed);
     bool object_up_movement(QGraphicsPixmapItem *item, unsigned int speed);
     int get_lives_from_label();
@@ -80,8 +81,7 @@ private:
     void update_point_in_label(int lives);
 private slots:
     void setup_disparo();
-    void set_focus(QGraphicsPixmapItem *item, bool is_x_focus, bool is_y_focus);
-
+    void set_focus(QGraphicsPixmapItem *item, bool is_x_focus);
     void move_canon_right();
 
 signals:
@@ -89,5 +89,4 @@ signals:
     void move_rigtht();
 
 };
-
 #endif // REGLA_JUEGO_H

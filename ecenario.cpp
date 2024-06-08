@@ -1,7 +1,5 @@
 #include "ecenario.h"
 
-
-
 ecenario::ecenario(unsigned int scale, unsigned int type)
 {
     this->scale = scale;

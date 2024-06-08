@@ -1,7 +1,6 @@
 #ifndef DISPARO_H
 #define DISPARO_H
 
-
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
@@ -9,8 +8,8 @@
 
 #define disparo_pixel_x_size 16
 #define disparo_pixel_y_size 16
-
 #define disparo_speed 8
+
 class disparo : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
@@ -23,7 +22,6 @@ private:
     void set_animations();
     QRect set_complete_sprites();
     sprites *pixmap_management;
-
     QTimer *time;
     float x, y, vx, vy;
     float time_period; // Tiempo en ms
@@ -36,7 +34,6 @@ private:
 
 private slots:
     void time_step();
-
 };
 
 #endif // DISPARO_H

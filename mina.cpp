@@ -9,8 +9,6 @@ mina::mina(unsigned int scale): angle(0), radius(100), centerX(280), centerY(300
 
     set_animations();
 
-    setX(centerX + radius * cos(angle));
-    setY(centerY + radius * sin(angle));
     setZValue(1);
     setPixmap(pixmap_management->get_current_pixmap(0,mina_pixel_x_size,mina_pixel_y_size));
 
