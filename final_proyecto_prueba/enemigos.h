@@ -25,7 +25,6 @@ private slots:
 private:
     QRect set_complete_sprites();
     void set_animations();
-    void update_sprite();
     sprites *pixmap_management;
     QTimer *timer;
     void apply_physics(float ax, float ay);

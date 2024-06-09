@@ -8,6 +8,7 @@ regla_juego::regla_juego(QGraphicsView *graph, QVector<QLabel *> game_labels)
     setup_scene();
     generate_fondo();
     setup_canon();
+    setup_minas();
     labels[1]->setText("vidas: 7");
     labels[2]->setText("puntos: 0");
 }
@@ -31,8 +32,8 @@ void regla_juego::generate_fondo() {
             scene->addItem(blocks[fil][col]);
         }
     }
-    generate_nivel1();
-    //generate_nivel2();
+    //generate_nivel1();
+    generate_nivel2();
     //generate_nivel3();
 }
 
@@ -197,6 +198,14 @@ void regla_juego::setup_disparo() {
     });
     timer->start(100);
 }
+
+void regla_juego::setup_minas(){
+    minas= new mina(game_scale_factor);
+    scene->addItem(minas);
+
+
+}
+
 
 void regla_juego::handle_barco_collision(disparo *bala, QTimer *timer) {
     scene->removeItem(bala);
@@ -381,7 +390,4 @@ void regla_juego::setup_scene()
     emit game_scene_changed();
 }
 
-void regla_juego::setup_minas(){
-    minas= new mina(game_scale_factor);
-    scene->addItem(minas);
-}
+

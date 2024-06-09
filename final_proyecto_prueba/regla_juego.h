@@ -73,6 +73,7 @@ private:
     bool check_collision_with_enemy(QGraphicsPixmapItem *item);
     bool check_collision_with_roca(QGraphicsPixmapItem *item);
 
+
     unsigned int canon_keys[3];
     float difficult = 0.1;
 

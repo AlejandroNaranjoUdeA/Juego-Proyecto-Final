@@ -1,8 +1,4 @@
 #include "disparo.h"
-#include "rocas.h"
-#include <QGraphicsScene>
-#include <QList>
-#include <typeinfo>
 
 disparo::disparo(unsigned int scale, int x, int y, int w, int h)
 {

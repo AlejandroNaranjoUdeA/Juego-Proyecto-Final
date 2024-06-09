@@ -12,13 +12,16 @@
 
 class canon : public QObject, public QGraphicsPixmapItem
 {
-
+    Q_OBJECT
 signals:
     void apunto_diparo(); // Declaración de la señal
     void is_moving(QGraphicsPixmapItem *,bool,bool);
+    void cannonCollided(); // Señal para indicar colisión del cañón con la mina
+
 
 private slots:
     void senal(); // Declaración del slot
+    void handleCollision(); // Declaración del slot
 
 public:
     canon(unsigned int scale);

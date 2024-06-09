@@ -38,21 +38,21 @@ void enemigos::set_animations() {
     dim.setX(0);
     dim.setY(0);
     dim.setHeight(1 * enemy_pixel_y_size);
-    dim.setWidth(1 * enemy_pixel_x_size);
+    dim.setWidth(3 * enemy_pixel_x_size);
     pixmap_management->add_new_animation(dim, 4);
 
     // Animación hacia abajo a la derecha
     dim.setX(3 * enemy_pixel_x_size);
     dim.setY(1 * enemy_pixel_y_size);
     dim.setHeight(1 * enemy_pixel_y_size);
-    dim.setWidth(1 * enemy_pixel_x_size);
+    dim.setWidth(3 * enemy_pixel_x_size);
     pixmap_management->add_new_animation(dim, 1);
 
     // Animación hacia abajo a la izquierda
     dim.setX(3 * enemy_pixel_x_size);
     dim.setY(0);
     dim.setHeight(1 * enemy_pixel_y_size);
-    dim.setWidth(1 * enemy_pixel_x_size);
+    dim.setWidth(3 * enemy_pixel_x_size);
     pixmap_management->add_new_animation(dim, 1);
 }
 
@@ -87,16 +87,21 @@ void enemigos::updatePosition()
     // Actualizar sprite dependiendo de la dirección del movimiento
     //update_sprite();
 
-    if(velocity.x() > 0 ){
+    if(angle < 2 ){
         setPixmap(pixmap_management->get_current_pixmap(1, enemy_pixel_x_size, enemy_pixel_y_size));
+
     }
-    else if(velocity.x() < 0){
+    else if(angle > 2){
         setPixmap(pixmap_management->get_current_pixmap(2, enemy_pixel_x_size, enemy_pixel_y_size));
+
     }
     else{
         setPixmap(pixmap_management->get_current_pixmap(0, enemy_pixel_x_size, enemy_pixel_y_size));
 
+
     }
+
+
 
     angle += speed;
     if (angle > 2 * M_PI) {
@@ -104,16 +109,3 @@ void enemigos::updatePosition()
     }
 }
 
-void enemigos::update_sprite(){
-
-    if(velocity.x() > 0 ){
-        setPixmap(pixmap_management->get_current_pixmap(1, enemy_pixel_x_size, enemy_pixel_y_size));
-    }
-    else if(velocity.x() < 0){
-        setPixmap(pixmap_management->get_current_pixmap(2, enemy_pixel_x_size, enemy_pixel_y_size));
-    }
-    else{
-        setPixmap(pixmap_management->get_current_pixmap(0, enemy_pixel_x_size, enemy_pixel_y_size));
-
-    }
-}

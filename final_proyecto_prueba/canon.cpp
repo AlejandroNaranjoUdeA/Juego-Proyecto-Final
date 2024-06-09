@@ -15,6 +15,8 @@ canon::canon(unsigned int scale) {
     setZValue(1);
     setPixmap(pixmap_management->get_current_pixmap(0,canon_pixel_x_size, canon_pixel_y_size));
 
+    connect(this, &canon::cannonCollided, this, &canon::handleCollision);
+
 }
 
 void canon::set_keys(unsigned int *keys)
@@ -43,12 +45,13 @@ void canon::move(unsigned int key, bool is_valid)
             senal();
         }
     }
-
 }
 
 void canon::senal() {
     emit apunto_diparo();
+    emit cannonCollided(); // Emitir la señal cuando se presiona la tecla de disparo
 }
+
 
 void canon::apunto_diparo(){
 
