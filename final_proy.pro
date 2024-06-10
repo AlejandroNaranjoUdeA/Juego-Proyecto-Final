@@ -15,8 +15,8 @@ SOURCES += \
     main.cpp \
     mina.cpp \
     regla_juego.cpp \
-    rocas.cpp \
     sprites.cpp \
+    rocas.cpp\
     ventanas.cpp \
     canon.cpp
 
@@ -26,8 +26,8 @@ HEADERS += \
     enemigos.h \
     mina.h \
     regla_juego.h \
-    rocas.h \
     sprites.h \
+    rocas.h\
     ventanas.h \
     canon.h
 

@@ -13,7 +13,6 @@ regla_juego::regla_juego(QGraphicsView *graph, QVector<QLabel *> game_labels)
     if (get_nivel_text()=="nivel: 1") generate_nivel1();
     else if (get_nivel_text()=="nivel: 2") generate_nivel2();
     else if (get_nivel_text()=="nivel: 3") generate_nivel3();
-
 }
 
 regla_juego::~regla_juego()
@@ -138,7 +137,7 @@ void regla_juego::setup_enemigos(int fil, int col)
 {
     enemigos *enemy = new enemigos(game_scale_factor);
     int x =game_scale_factor*col * game_map_size_col;
-    int y =game_scale_factor* fil * game_map_size_fil;
+    int y = game_scale_factor* fil * game_map_size_fil;
     enemy->set_initial_conditions(x, y, 1, 1);
     scene->addItem(enemy);
     enemies.append(enemy);
@@ -212,6 +211,9 @@ void regla_juego::move_object_right(QGraphicsPixmapItem *item, unsigned int spee
         timek->deleteLater();
         delete timek;
     }
+    if (check_collision_with_mina(canones)){
+        handle_mina_collision(canones, timek);
+    }
 }
 
 void regla_juego::setup_disparo() {
@@ -248,6 +250,7 @@ void regla_juego::handle_barco_collision(disparo *bala, QTimer *timer) {
             enemies_eliminated++;
             delete enemy;
             break;
+
         }
     }
     int lives = get_points_from_label();
@@ -316,6 +319,7 @@ bool regla_juego::check_collision_with_roca(QGraphicsPixmapItem *item) {
     }
     return false;
 }
+
 
 bool regla_juego::object_right_movement(QGraphicsPixmapItem *item, unsigned int speed)
 {
@@ -454,8 +458,30 @@ void regla_juego::setup_scene()
 }
 
 void regla_juego::setup_minas(int fil, int col){
-
     minas= new mina(game_scale_factor);
     minas->setPos(game_scale_factor*col * game_map_size_col,game_scale_factor* fil * blocks_pixel_y_size);
     scene->addItem(minas);
+    minass.append(minas);
+}
+
+bool regla_juego::check_collision_with_mina(QGraphicsPixmapItem *item) {
+    for (auto minas : minass) { // Iterar sobre todos los enemigos
+        if (item->collidesWithItem(minas)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void regla_juego::handle_mina_collision(canon *canones, QTimer *timek) {
+    // Eliminar la bala y detener el temporizador
+    timek->stop();
+    timek->deleteLater();
+    for (auto minas : minass) {
+        if (canones->collidesWithItem(minas)){
+            scene->removeItem(canones);
+            //niveles
+            break;
+        }
+    }
 }

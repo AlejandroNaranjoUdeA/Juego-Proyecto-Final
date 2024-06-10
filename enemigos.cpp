@@ -1,6 +1,7 @@
 #include "enemigos.h"
 
 enemigos::enemigos(unsigned int scale): angle(0), speed(0.05), xAmplitude(2.0), acceleration(0.6), friction(0.95), velocity(0, 0), time_period(16)
+    , direction(1)
 {
     pixmap_management = new sprites(":/barcos.jpeg",scale);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
@@ -14,13 +15,17 @@ enemigos::enemigos(unsigned int scale): angle(0), speed(0.05), xAmplitude(2.0), 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &enemigos::updatePosicion);
     timer->start(16); // Aproximadamente 60 FPS
+
+    changeDirectionTimer = new QTimer(this);
+    connect(changeDirectionTimer, &QTimer::timeout, this, &enemigos::changeDirection);
+    changeDirectionTimer->start(40000);
 }
 
 enemigos::~enemigos()
 {
     delete pixmap_management;
     delete timer;
-
+    delete changeDirectionTimer;
 }
 
 QRect enemigos::set_complete_sprites()
@@ -33,7 +38,6 @@ QRect enemigos::set_complete_sprites()
     dim.setWidth(6*enemy_pixel_x_size);
 
     return dim;
-
 }
 
 void enemigos::set_animations()
@@ -44,8 +48,8 @@ void enemigos::set_animations()
     dim.setY(0);
     dim.setHeight(1*enemy_pixel_y_size);
     dim.setWidth(6*enemy_pixel_x_size);
-
     pixmap_management->add_new_animation(dim,4);
+
     // Animación hacia abajo a la derecha
     dim.setX(3 * enemy_pixel_x_size);
     dim.setY(1 * enemy_pixel_y_size);
@@ -73,7 +77,7 @@ void enemigos::apply_physics(float ax, float ay)
 {
 
     velocity.setX(velocity.x() + ax * time_period / 1000.0);
-    velocity.setY(velocity.y() + ay * time_period / 1000.0);
+    velocity.setY(velocity.y() + ay * direction * time_period / 1000.0);
     velocity.setX(velocity.x() * friction);
     velocity.setY(velocity.y() * friction);
     // Actualizar la posición
@@ -82,7 +86,6 @@ void enemigos::apply_physics(float ax, float ay)
 
 void enemigos::updatePosicion()
 {
-    // Movimiento sinusoidal en X
     float x = xAmplitude * std::sin(angle);
     // Aplicar física al movimiento con aceleración en Y
     apply_physics(0, acceleration);
@@ -90,11 +93,15 @@ void enemigos::updatePosicion()
     setX(this->x() + x);
     setY(this -> y()+ velocity.y());
     //spirte
-    if(velocity.x() > 0 ){
+    if(angle <2 ){
+        setPixmap(pixmap_management->get_current_pixmap(1, enemy_pixel_x_size, enemy_pixel_y_size));
+
         setPixmap(pixmap_management->get_current_pixmap(1, enemy_pixel_x_size, enemy_pixel_y_size));
     }
-    else if(velocity.x() < 0){
+    else if(angle > 2){
         setPixmap(pixmap_management->get_current_pixmap(2, enemy_pixel_x_size, enemy_pixel_y_size));
+
+
     }
     else{
         setPixmap(pixmap_management->get_current_pixmap(0, enemy_pixel_x_size, enemy_pixel_y_size));
@@ -106,4 +113,7 @@ void enemigos::updatePosicion()
     }
 }
 
-
+void enemigos::changeDirection()
+{
+    direction *= -1;
+}

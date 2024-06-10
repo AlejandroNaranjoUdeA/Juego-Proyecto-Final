@@ -43,7 +43,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>nivel: 1</string>
+      <string>nivel: 2</string>
      </property>
     </widget>
     <widget class="QLabel" name="L_vidas">

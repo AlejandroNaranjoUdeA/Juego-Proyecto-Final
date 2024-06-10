@@ -136,10 +136,7 @@ void ventanas::login()
 
     QTextStream out(&file);
     out << username << "," << password << "\n"; //guarda el usuario y contraseña
-
     QMessageBox::information(this, "Registro", "Usuario registrado exitosamente."); //muestra una ventana emergente
-
-
     //continuacion....
 
 }

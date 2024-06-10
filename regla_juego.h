@@ -43,6 +43,7 @@ private:
     ecenario *blocks[game_map_rows][game_map_col];
     QVector<enemigos *> enemies;
     QVector<rocas *> rocars;
+    QVector<mina *> minass;
     enemigos *enemy;
     rocas *roca;
     mina *minas;
@@ -62,7 +63,6 @@ private:
     QTimer *timek;
     void move_object_right(QGraphicsPixmapItem *item, unsigned int speed);
     void setup_canon();
-    void setup_minas(int fil, int col);
     void set_canon_keys();
     void setup_scene();
     void handle_barco_collision(disparo *bala, QTimer *timer);
@@ -79,6 +79,10 @@ private:
     void update_lives_in_label(int lives);
     int get_points_from_label();
     void update_point_in_label(int lives);
+    void setup_minas(int fil, int col);
+    bool check_collision_with_mina(QGraphicsPixmapItem *item);
+    void handle_mina_collision(canon *canones, QTimer *timer);
+
 private slots:
     void setup_disparo();
     void set_focus(QGraphicsPixmapItem *item, bool is_x_focus);
