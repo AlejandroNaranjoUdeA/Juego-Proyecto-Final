@@ -14,11 +14,12 @@ public:
     void add_new_animation(QRect size, unsigned int number);
     QPixmap get_current_pixmap(unsigned int animation, int original_width, int original_height);
     QPixmap get_fixed_image(QRect size);
+    QVector<unsigned int> animations_size;
 
 private:
     QPixmap *main_pixmap, *character_pixmap;
     QVector<QRect> animations;
-    QVector<unsigned int> animations_size;
+    //QVector<unsigned int> animations_size;
     unsigned int width, height, animation_counter, scale;
 };
 

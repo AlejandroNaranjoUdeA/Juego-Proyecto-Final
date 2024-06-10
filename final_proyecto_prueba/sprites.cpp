@@ -51,3 +51,4 @@ QPixmap sprites::get_fixed_image(QRect size)
     return character_pixmap->copy(size).scaled(new_width * scale, new_height * scale);
 }
 
+

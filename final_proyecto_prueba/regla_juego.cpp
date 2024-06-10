@@ -11,6 +11,11 @@ regla_juego::regla_juego(QGraphicsView *graph, QVector<QLabel *> game_labels)
     setup_minas();
     labels[1]->setText("vidas: 7");
     labels[2]->setText("puntos: 0");
+
+    // Configurar temporizador para comprobar colisiones
+    timek = new QTimer(this);
+    connect(timek, &QTimer::timeout, this, &regla_juego::checkCollisions);
+    timek->start(16); // Aproximadamente 60 FPS
 }
 
 regla_juego::~regla_juego()
@@ -203,7 +208,17 @@ void regla_juego::setup_minas(){
     minas= new mina(game_scale_factor);
     scene->addItem(minas);
 
+    checkCollisions();
+}
 
+void regla_juego::checkCollisions() {
+    // Comprobar colisiones entre el cañón y las minas
+    for (mina *m : minass) {
+        if (canones->collidesWithItem(m)) {
+            m->startExplosion();
+            // Puedes añadir lógica adicional aquí, como reducir vidas, etc.
+        }
+    }
 }
 
 

@@ -1,5 +1,4 @@
 #include "mina.h"
-#include "canon.h"
 
 mina::mina(unsigned int scale): angle(0), speed(0.05), radius(8), acceleration(0.01), friction(0.98), velocity(0, 0), time_period(16)
 {
@@ -9,18 +8,20 @@ mina::mina(unsigned int scale): angle(0), speed(0.05), radius(8), acceleration(0
 
     //setPixmap();
     set_animations();
-    setX(200);
+    setX(150);
     setY(150);
     setZValue(1);
     setPixmap(pixmap_management->get_current_pixmap(0, mina_pixel_x_size,mina_pixel_y_size));
     //setPixmap(pixmap_management->get_current_pixmap(0));
 
-    connect(this, &mina::collisionDetected, this, &mina::show_explosion_sprites);
-
     // Configurar el temporizador para actualizar la posición
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &mina::updatePosition);
     timer->start(time_period); // Aproximadamente 60 FPS
+
+    explosionTimer = new QTimer(this);
+    connect(explosionTimer, &QTimer::timeout, this, &mina::nextFrame);
+    currentFrame = 0;
 }
 
 mina::~mina(){
@@ -60,7 +61,25 @@ QRect mina::set_complete_sprites()
     return dim;
 }
 
-void mina::show_explosion_sprites() {
+void mina::startExplosion() {
+    if (!exploted) {
+        exploted = true;
+        currentFrame = 0;
+        explosionTimer->start(100); // Cambiar frame cada 100 ms
+    }
+}
+
+void mina::nextFrame() {
+    if (currentFrame < pixmap_management->animations_size[1]) {
+        setPixmap(pixmap_management->get_current_pixmap(1, mina_pixel_x_size, mina_pixel_y_size));
+        currentFrame++;
+    } else {
+        explosionTimer->stop();
+        setPixmap(pixmap_management->get_current_pixmap(0, mina_pixel_x_size, mina_pixel_y_size)); // Reset a estado inicial o algún otro estado
+    }
+}
+
+/*void mina::show_explosion_sprites() {
     // Cambiar los sprites de la mina para mostrar una explosión
     if (!exploted) {
         exploted = true; // Marcar la mina como explotada
@@ -71,7 +90,7 @@ void mina::show_explosion_sprites() {
         setPixmap(pixmap_management->get_current_pixmap(0, mina_pixel_x_size, mina_pixel_y_size));
     }
 }
-
+*/
 
 void mina::set_initial_conditions(float x, float y, float vx, float vy) {
     setPos(x, y);

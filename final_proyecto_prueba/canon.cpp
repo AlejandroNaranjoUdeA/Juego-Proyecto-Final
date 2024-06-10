@@ -15,7 +15,6 @@ canon::canon(unsigned int scale) {
     setZValue(1);
     setPixmap(pixmap_management->get_current_pixmap(0,canon_pixel_x_size, canon_pixel_y_size));
 
-    connect(this, &canon::cannonCollided, this, &canon::handleCollision);
 
 }
 
@@ -29,7 +28,7 @@ void canon::move(unsigned int key, bool is_valid)
     if(key == keys[0]){
         setPixmap(pixmap_management->get_current_pixmap(0,canon_pixel_x_size,canon_pixel_y_size));
         if(is_valid){
-            emit is_moving(this,true,true);
+            emit is_moving(this,true);
             setY(y()-canon_speed);
         }
     }
@@ -37,7 +36,7 @@ void canon::move(unsigned int key, bool is_valid)
         setPixmap(pixmap_management->get_current_pixmap(0,canon_pixel_x_size,canon_pixel_y_size));
         if (is_valid){
             setY(y()+canon_speed);
-            emit is_moving(this,true,true);
+            emit is_moving(this,true);
         }
     }
     else if (key == keys[2]) {
@@ -49,7 +48,6 @@ void canon::move(unsigned int key, bool is_valid)
 
 void canon::senal() {
     emit apunto_diparo();
-    emit cannonCollided(); // Emitir la señal cuando se presiona la tecla de disparo
 }
 
 
@@ -87,7 +85,7 @@ void canon::set_animations()
     pixmap_management->add_new_animation(dim,0);
 }
 
-void canon::is_moving(QGraphicsPixmapItem *, bool, bool){
+void canon::is_moving(QGraphicsPixmapItem *, bool){
 
 }
 

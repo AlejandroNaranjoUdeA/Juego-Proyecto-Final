@@ -42,12 +42,17 @@ private:
     ecenario *blocks[game_map_rows][game_map_col];
     QVector<enemigos *> enemies;
     QVector<rocas *> rocars;
+    QVector<mina *> minass;
+
+    QTimer *timek;
 
     enemigos *enemy;
     canon *canones;
     rocas *roca;
     disparo *bala;
     mina *minas;
+
+    canon* canon_player;
 
     QGraphicsItem* elemento;
     int enemies_eliminated;
@@ -59,7 +64,6 @@ private:
 
     void setup_enemigos(int fil, int col);
     void setup_rocas(int fil, int col);
-    QTimer *timek;
     void move_object_right(QGraphicsPixmapItem *item, unsigned int speed);
 
     void setup_canon();
@@ -72,6 +76,8 @@ private:
     void handle_roca_collision(disparo *bala, QTimer *timer);
     bool check_collision_with_enemy(QGraphicsPixmapItem *item);
     bool check_collision_with_roca(QGraphicsPixmapItem *item);
+
+    void checkCollisions();
 
 
     unsigned int canon_keys[3];

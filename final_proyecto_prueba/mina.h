@@ -9,11 +9,10 @@
 
 #define mina_pixel_x_size 36
 #define mina_pixel_y_size 63
-#define mina_speed 8
 
 class mina: public QObject, public QGraphicsPixmapItem
 {
-    Q_OBJECT
+
 public:
     mina(unsigned int scale);
     ~mina();
@@ -22,13 +21,14 @@ public:
     void apply_physics(float ax, float ay);
     void updatePosition();
 
-public slots:
-    void show_explosion_sprites();
+    void startExplosion();
 
-signals:
-    void collisionDetected();  // Señal para indicar colisión
 
 private:
+
+    QVector<QPixmap> explosionFrames;
+    QTimer *explosionTimer;
+    int currentFrame;
 
     void set_animations();
     QRect set_complete_sprites();
@@ -44,6 +44,10 @@ private:
     int time_period;
 
     bool exploted;
+
+
+private slots:
+    void nextFrame();
 
 };
 
