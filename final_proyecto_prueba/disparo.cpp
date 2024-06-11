@@ -2,60 +2,47 @@
 
 disparo::disparo(unsigned int scale, int x, int y, int w, int h)
 {
-    pixmap_management = new sprites(":/bala.jpeg",scale);
+    pixmap_management = new sprites(":/balas.jpeg", scale);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
-    pixmap_management->set_design_size(disparo_pixel_x_size,
-                                       disparo_pixel_y_size);
-    //setPixmap();
+    pixmap_management->set_design_size(disparo_pixel_x_size, disparo_pixel_y_size);
     set_animations();
-
     setZValue(1);
     setPixmap(pixmap_management->get_current_pixmap(0,disparo_pixel_x_size,disparo_pixel_y_size));
-
     //move parabolico
 
     x_dimension = 4;
     y_dimension = 4;
     this->w = w;
     this->h = h;
-    set_initial_conditions(x, y, 15, 10); // Valores iniciales
-    time_period = 100; // Tiempo en ms
+    set_initial_conditions(x, y, 15, 10);
+    time_period = 100; //  en ms
 
     time = new QTimer(this);
     connect(time, &QTimer::timeout, this, &disparo::time_step);
     time->start(time_period);
-
 }
 
-disparo::~disparo(){
+disparo::~disparo() {
     delete pixmap_management;
 }
 
-QRect disparo::set_complete_sprites()
-{
+QRect disparo::set_complete_sprites() {
     QRect dim;
-
     dim.setX(0);
     dim.setY(0);
-    dim.setHeight(1*disparo_pixel_y_size);
-    dim.setWidth(1*disparo_pixel_x_size);
-
+    dim.setHeight(1 * disparo_pixel_y_size);
+    dim.setWidth(1 * disparo_pixel_x_size);
     return dim;
 }
 
-
-void disparo::set_animations()
-{
+void disparo::set_animations() {
     QRect dim;
-
     dim.setX(0);
     dim.setY(0);
-    dim.setHeight(1*disparo_pixel_y_size);
-    dim.setWidth(1*disparo_pixel_x_size);
-
-    pixmap_management->add_new_animation(dim,0);
+    dim.setHeight(1 * disparo_pixel_y_size);
+    dim.setWidth(1 * disparo_pixel_x_size);
+    pixmap_management->add_new_animation(dim, 0);
 }
-
 void disparo::set_initial_conditions(float x, float y, float vx, float vy) {
     this->x = get_phisical_x(x);
     this->y = get_phisical_y(y);
@@ -71,7 +58,6 @@ float disparo::get_phisical_y(float y) {
 }
 
 void disparo::time_step() {
-    // Movimiento parabólico
     float ax = 0;
     float ay = -9.8;
 
@@ -83,3 +69,4 @@ void disparo::time_step() {
     // Actualiza la posición de la bala
     setPos(w * x / x_dimension, h * (y_dimension - y) / y_dimension);
 }
+

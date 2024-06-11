@@ -2,26 +2,23 @@
 
 mina::mina(unsigned int scale): angle(0), speed(0.05), radius(8), acceleration(0.01), friction(0.98), velocity(0, 0), time_period(16)
 {
-    pixmap_management = new sprites(":/mina_completa.jpg",scale);
+    pixmap_management = new sprites(":/mina.jpeg",scale);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
     pixmap_management->set_design_size(mina_pixel_x_size, mina_pixel_y_size);
 
     //setPixmap();
     set_animations();
-    setX(150);
-    setY(150);
     setZValue(1);
-    setPixmap(pixmap_management->get_current_pixmap(0, mina_pixel_x_size,mina_pixel_y_size));
-    //setPixmap(pixmap_management->get_current_pixmap(0));
+    setPixmap(pixmap_management->get_current_pixmap(0, mina_pixel_x_size , mina_pixel_y_size));
 
     // Configurar el temporizador para actualizar la posición
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &mina::updatePosition);
     timer->start(time_period); // Aproximadamente 60 FPS
 
-    explosionTimer = new QTimer(this);
+    /*explosionTimer = new QTimer(this);
     connect(explosionTimer, &QTimer::timeout, this, &mina::nextFrame);
-    currentFrame = 0;
+    currentFrame = 0;*/
 }
 
 mina::~mina(){
@@ -69,28 +66,16 @@ void mina::startExplosion() {
     }
 }
 
-void mina::nextFrame() {
-    if (currentFrame < pixmap_management->animations_size[1]) {
+/*void mina::nextFrame() {
+    if (currentFrame < pixmap_management-> animations_size[1]) {
         setPixmap(pixmap_management->get_current_pixmap(1, mina_pixel_x_size, mina_pixel_y_size));
         currentFrame++;
     } else {
         explosionTimer->stop();
         setPixmap(pixmap_management->get_current_pixmap(0, mina_pixel_x_size, mina_pixel_y_size)); // Reset a estado inicial o algún otro estado
     }
-}
+}*/
 
-/*void mina::show_explosion_sprites() {
-    // Cambiar los sprites de la mina para mostrar una explosión
-    if (!exploted) {
-        exploted = true; // Marcar la mina como explotada
-        setPixmap(pixmap_management->get_current_pixmap(1, mina_pixel_x_size, mina_pixel_y_size)); // Cambiar la animación al índice que corresponde a la explosión
-        timer->stop(); // Detener el temporizador de movimiento
-    }
-    else{
-        setPixmap(pixmap_management->get_current_pixmap(0, mina_pixel_x_size, mina_pixel_y_size));
-    }
-}
-*/
 
 void mina::set_initial_conditions(float x, float y, float vx, float vy) {
     setPos(x, y);

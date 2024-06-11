@@ -9,30 +9,30 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    canon.cpp \
     disparo.cpp \
     ecenario.cpp \
     enemigos.cpp \
     main.cpp \
-    mainwindow.cpp \
     mina.cpp \
     regla_juego.cpp \
-    rocas.cpp \
-    sprites.cpp
+    sprites.cpp \
+    rocas.cpp\
+    ventanas.cpp \
+    canon.cpp
 
 HEADERS += \
-    canon.h \
     disparo.h \
     ecenario.h \
     enemigos.h \
-    mainwindow.h \
     mina.h \
     regla_juego.h \
-    rocas.h \
-    sprites.h
+    sprites.h \
+    rocas.h\
+    ventanas.h \
+    canon.h
 
 FORMS += \
-    mainwindow.ui
+    ventanas.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -40,4 +40,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    imagen.qrc
+    images.qrc

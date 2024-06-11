@@ -1,30 +1,35 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef VENTANAS_H
+#define VENTANAS_H
 
 #include <QMainWindow>
 #include "regla_juego.h"
 #include <QKeyEvent>
-#include <QTimer>
+
+#include <QScreen>
+
+#include <QFile>
+#include <QTextStream>
+#include <QMessageBox> //mostrar mensajes emergentes
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ventanas; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
+class ventanas : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    ventanas(QWidget *parent = nullptr);
+    ~ventanas();
     void keyPressEvent(QKeyEvent *event);
 
 private:
-    QGraphicsView *graph;
-    QGraphicsScene *scene;
-
     Ui::ventanas *ui;
     regla_juego *game;
+
+    regla_juego *enemigos;
 
     //juego:
     QWidget *gameWindow1;
@@ -35,11 +40,10 @@ private:
 
     //niveles del juego:
     QWidget *gameWindow4;
+    QWidget *gameWindow5;
+    QWidget *gameWindow6;
 
     QTimer *timer; //se declara el temporizador para las ventanas de los niveles
-
-
-    void setup_game_rules();
 
 private slots:
     void set_mainwindow();
@@ -50,8 +54,18 @@ private slots:
     void showGameWindow1(); // Slot para cambiar a gameWindow1 después de 5 segundos
     void showGameWindowAfterLogin(); // Slot para manejar la lógica de transición después del login
 
+    void updateLevelLabel(int level);
 
-signals:
-    void game_scene_changed();
+    void mostrar_nivel2();
+    void mostrar_nivel2_imagen();
+
+    void mostrar_mensaje(bool);
+
+
+   // void showLevelCompleteWindow();
+
+    void setup_game_rules();
 };
-#endif // MAINWINDOW_H
+
+#endif // VENTANAS_H
+

@@ -10,7 +10,7 @@
 
 class rocas: public QObject, public QGraphicsPixmapItem
 {
-
+    Q_OBJECT
 public:
     rocas(unsigned int scale);
     ~rocas();
@@ -21,7 +21,7 @@ private:
     void set_animations();
     QRect set_complete_sprites();
     sprites *pixmap_management;
-    int hitCount;
+    int hitCount=0;
     const int maxHits = 3;
 
 };

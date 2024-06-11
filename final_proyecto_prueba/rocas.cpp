@@ -1,8 +1,7 @@
 #include "rocas.h"
 
-rocas::rocas(unsigned int scale)
-{
-    pixmap_management = new sprites(":/rocas pequeñas.png",scale);
+rocas::rocas(unsigned int scale) {
+    pixmap_management = new sprites(":/rocas.png",scale);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
     pixmap_management->set_design_size(rocas_pixel_x_size,
                                        rocas_pixel_y_size);
@@ -10,8 +9,8 @@ rocas::rocas(unsigned int scale)
     //setPixmap();
     set_animations();
     setZValue(1);
-    setPixmap(pixmap_management->get_current_pixmap(0, rocas_pixel_x_size,rocas_pixel_y_size));
-    //setPixmap(pixmap_management->get_current_pixmap(0));
+    setPixmap(pixmap_management->get_current_pixmap(0,rocas_pixel_x_size,rocas_pixel_y_size));
+
 }
 
 rocas::~rocas(){
@@ -50,3 +49,4 @@ bool rocas::isDestroyed() const
 {
     return hitCount >= maxHits;
 }
+

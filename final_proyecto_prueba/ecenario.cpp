@@ -1,11 +1,9 @@
 #include "ecenario.h"
 
-
-
 ecenario::ecenario(unsigned int scale, unsigned int type)
 {
     this->scale = scale;
-    pixmap = new sprites(":/oceano 2.png",scale);
+    pixmap = new sprites(":/fondo.jpg",scale);
     pixmap->cut_character_pixmap(set_complete_sprites());
     pixmap->set_design_size(blocks_pixel_x_size,
                             blocks_pixel_y_size);
