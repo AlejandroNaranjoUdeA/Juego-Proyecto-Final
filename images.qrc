@@ -1,12 +1,12 @@
 <RCC>
     <qresource prefix="/">
-        <file>barcos.jpeg</file>
-        <file>canon.jpeg</file>
         <file>fondo.jpg</file>
-        <file>balas.jpeg</file>
         <file>mina.jpeg</file>
         <file>level1 imagen juego.jpeg</file>
         <file>fondo menu principal.jpeg</file>
         <file>rocas.png</file>
+        <file>barcos.png</file>
+        <file>canon.png</file>
+        <file>balas.png</file>
     </qresource>
 </RCC>

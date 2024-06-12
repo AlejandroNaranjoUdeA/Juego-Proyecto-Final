@@ -5,6 +5,12 @@
 #include "regla_juego.h"
 #include <QKeyEvent>
 
+#include <QScreen>
+
+#include <QFile>
+#include <QTextStream>
+#include <QMessageBox> //mostrar mensajes emergentes
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ventanas; }
@@ -29,11 +35,8 @@ private:
     //registro:
     QWidget *gameWindow3;
 
-    //niveles del juego:
-    QWidget *gameWindow4;
-
     QTimer *timer; //se declara el temporizador para las ventanas de los niveles
-    void setup_game_rules();
+    void restartGame();
 
 private slots:
     void set_mainwindow();
@@ -41,8 +44,11 @@ private slots:
     void registrarse_oprimir(); //funcion para el boton registrarse
     void iniciar_secion();
     void login();
-    void showGameWindow1(); // Slot para cambiar a gameWindow1 después de 5 segundos
-    void showGameWindowAfterLogin(); // Slot para manejar la lógica de transición después del login
+    void mostrar_mensaje(bool win);
+    void setup_game_rules();
 };
 
 #endif // VENTANAS_H
+
+
+

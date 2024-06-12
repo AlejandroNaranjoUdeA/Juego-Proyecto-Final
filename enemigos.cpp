@@ -3,7 +3,7 @@
 enemigos::enemigos(unsigned int scale): angle(0), speed(0.05), xAmplitude(2.0), acceleration(0.6), friction(0.95), velocity(0, 0), time_period(16)
     , direction(1)
 {
-    pixmap_management = new sprites(":/barcos.jpeg",scale);
+    pixmap_management = new sprites(":/barcos.png",scale);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
     pixmap_management->set_design_size(enemy_pixel_x_size,
                                        enemy_pixel_y_size);

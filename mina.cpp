@@ -1,6 +1,6 @@
 #include "mina.h"
 
-mina::mina(unsigned int scale): angle(0), speed(0.05), radius(8), acceleration(0.01), friction(0.98), velocity(0, 0), time_period(16)
+mina::mina(unsigned int scale): angle(0), speed(0.05), radius(5), acceleration(0.01), friction(0.98), velocity(0, 0), time_period(16)
 {
     pixmap_management = new sprites(":/mina.jpeg",scale);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
@@ -15,17 +15,12 @@ mina::mina(unsigned int scale): angle(0), speed(0.05), radius(8), acceleration(0
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &mina::updatePosition);
     timer->start(time_period); // Aproximadamente 60 FPS
-
-    /*explosionTimer = new QTimer(this);
-    connect(explosionTimer, &QTimer::timeout, this, &mina::nextFrame);
-    currentFrame = 0;*/
 }
 
 mina::~mina(){
     delete pixmap_management;
     delete timer;
 }
-
 
 void mina::set_animations(){
     QRect dim;
@@ -65,17 +60,6 @@ void mina::startExplosion() {
         explosionTimer->start(100); // Cambiar frame cada 100 ms
     }
 }
-
-/*void mina::nextFrame() {
-    if (currentFrame < pixmap_management-> animations_size[1]) {
-        setPixmap(pixmap_management->get_current_pixmap(1, mina_pixel_x_size, mina_pixel_y_size));
-        currentFrame++;
-    } else {
-        explosionTimer->stop();
-        setPixmap(pixmap_management->get_current_pixmap(0, mina_pixel_x_size, mina_pixel_y_size)); // Reset a estado inicial o algún otro estado
-    }
-}*/
-
 
 void mina::set_initial_conditions(float x, float y, float vx, float vy) {
     setPos(x, y);

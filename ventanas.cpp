@@ -1,9 +1,6 @@
 #include "ventanas.h"
 #include "ui_ventanas.h"
 
-#include <QFile>
-#include <QTextStream>
-#include <QMessageBox> //mostrar mensajes emergentes
 
 ventanas::ventanas(QWidget *parent)
     : QMainWindow(parent)
@@ -14,17 +11,16 @@ ventanas::ventanas(QWidget *parent)
     setup_game_rules();
     set_mainwindow();
 
+
     gameWindow1 = ui->Game_window;
     gameWindow2 = ui->Game_window_2;
     gameWindow3 = ui->Game_window_3;
-    gameWindow4 = ui->Game_window_4;
 
     connect(ui->pushButton, &QPushButton::clicked, this, &ventanas::jugar_oprimir);
     connect(ui->pushButton_2, &QPushButton::clicked, this, &ventanas::registrarse_oprimir); // Conectar el nuevo botón
     connect(ui->pushButton_3, &QPushButton::clicked, this, &ventanas::login); //concectar con el boton de iniciar sesion para guardar la informacion
     connect(ui->pushButton_3, &QPushButton::clicked, this, &ventanas::iniciar_secion); // conectar con el boton iniciar sesion para iniciar el juego
 
-    connect(timer, &QTimer::timeout, this, &ventanas::showGameWindow1); // Conectar el temporizador con la función showGameWindow1
 
     // Obtener el tamaño de la pantalla disponible
     QRect screenGeometry = QApplication::primaryScreen()->availableGeometry();
@@ -33,7 +29,7 @@ ventanas::ventanas(QWidget *parent)
 
     gameWindow2->setGeometry(0, 0, screenWidth, screenHeight);
     gameWindow3->setGeometry(0, 0, screenWidth, screenHeight);
-    gameWindow4->setGeometry(0, 0, screenWidth, screenHeight);
+
 
     ui->backgroundLabel->setPixmap(QPixmap(":/fondo menu principal.jpeg"));
     ui->backgroundLabel->setScaledContents(true); // Para escalar la imagen al tamaño del QLabel
@@ -42,21 +38,21 @@ ventanas::ventanas(QWidget *parent)
     // Hacer que gameWindow2 tenga fondo transparente
     gameWindow2->setAttribute(Qt::WA_TranslucentBackground);
     gameWindow2->setStyleSheet("background: transparent;");
-
-
     // Asegurarse de que backgroundLabel esté detrás de otros widgets
     ui->backgroundLabel->lower(); // Mover el QLabel al fondo
+
+    ui->L_nivel->setStyleSheet("QLabel { color : blue; font :  12px 'Arial'; }");
+    ui->L_vidas->setStyleSheet("QLabel { color : blue; font :  12px 'Arial'; }");
+    ui->L_puntos->setStyleSheet("QLabel { color : blue; font : 12px 'Arial'; }");
+
 
     // Mostrar solo la ventana de inicio al comienzo
     gameWindow1->hide();
     gameWindow2->show();
     gameWindow3->hide();
-    gameWindow4->hide();
 
-    // Establecer la imagen en gameWindow4
-    QPixmap pixmap(":/level1 imagen juego.jpeg"); // Asegúrate de que la ruta sea correcta
-    ui->imageLabel->setPixmap(pixmap);
-    ui->imageLabel->setScaledContents(true); // Esto asegura que la imagen se ajuste al QLabel
+    connect(game, SIGNAL(loseorwin(bool)), this, SLOT(mostrar_mensaje(bool)));
+
 }
 
 ventanas::~ventanas()
@@ -72,38 +68,32 @@ void ventanas::keyPressEvent(QKeyEvent *event)
 
 void ventanas::setup_game_rules()
 {
-    QVector<QLabel *> labels;
 
+
+    QVector<QLabel *> labels;
     labels.push_back(ui->L_nivel);
     labels.push_back(ui->L_vidas);
     labels.push_back(ui->L_puntos);
 
     game = new regla_juego(ui->graphicsView,labels);
-
     connect(game,SIGNAL(game_scene_changed()),this,SLOT(set_mainwindow()));
+    connect(game, SIGNAL(cambio()), this, SLOT(setup_game_rules()));
 }
 
 void ventanas::set_mainwindow()
 {
-    ui->Game_window->setGeometry(0,0,ui->graphicsView->width(),
-                                 ui->graphicsView->height()+blocks_pixel_y_size*game_scale_factor);
-    ui->graphicsView->setGeometry(0,blocks_pixel_y_size*game_scale_factor,
+    ui->Game_window->setGeometry(0, 0, ui->graphicsView->width(),
+                                 ui->graphicsView->height() + blocks_pixel_y_size * game_scale_factor);
+    ui->graphicsView->setGeometry(0, blocks_pixel_y_size * game_scale_factor,
                                   ui->graphicsView->width(),
                                   ui->graphicsView->height());
-    setGeometry(x(),y(),ui->Game_window->width(),ui->Game_window->height());
+    setGeometry(x(), y(), ui->Game_window->width(), ui->Game_window->height());
 }
 
 
 void ventanas::jugar_oprimir()
 {
     gameWindow2->hide();
-    gameWindow4->show();
-    timer->start(3000); //tiempo en que aparezca gameWindow4
-}
-
-void ventanas::showGameWindow1()
-{
-    gameWindow4->hide();
     gameWindow1->show();
 }
 
@@ -139,19 +129,47 @@ void ventanas::login()
     QMessageBox::information(this, "Registro", "Usuario registrado exitosamente."); //muestra una ventana emergente
     //continuacion....
 
+
 }
 
 void ventanas::iniciar_secion(){
     gameWindow3->hide();
-    gameWindow4->show();
-    timer->start(3000); // Iniciar el temporizador para 5 segundos
-    disconnect(timer, &QTimer::timeout, this, &ventanas::showGameWindow1); // Desconectar cualquier otra conexión del temporizador
-    connect(timer, &QTimer::timeout, this, &ventanas::showGameWindowAfterLogin); // Conectar el temporizador a showGameWindowAfterLogin
+    gameWindow1->show();
 }
 
-void ventanas::showGameWindowAfterLogin()
-{
-    timer->stop(); // Detener el temporizador
-    gameWindow4->hide();
-    gameWindow1->show();
+
+
+void ventanas::mostrar_mensaje(bool win) {
+     qDebug() << "Señal loseorwin recibida con valor:" << win;
+    if (win==true) {
+        qDebug() << "haciendo que gane";
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("WINNN");
+        msgBox.setText("¡GANASTE!");
+        msgBox.setInformativeText("¿Deseas jugar de nuevo o salir del juego?");
+        msgBox.setStandardButtons(QMessageBox::Retry | QMessageBox::Close);
+        msgBox.setDefaultButton(QMessageBox::Retry);
+
+        int ret = msgBox.exec();
+        switch (ret) {
+        case QMessageBox::Retry:
+            restartGame();
+            break;
+        case QMessageBox::Close:
+            QCoreApplication::quit();
+            break;
+        default:
+            break;
+        }
+    } else if (win==false) {
+        QMessageBox::information(this, "LOSEE", "¡PERDISTE!");
+        QCoreApplication::quit();
+    }
+}
+
+void ventanas::restartGame() {
+    gameWindow1->hide();
+    gameWindow2->show();
+    gameWindow3->hide();
+
 }

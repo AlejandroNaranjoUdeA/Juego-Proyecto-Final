@@ -35,7 +35,6 @@ public:
     ~regla_juego();
     void key_event(QKeyEvent *event);
 
-
 private:
     QGraphicsView *graph;
     QVector<QLabel *> labels;
@@ -75,6 +74,8 @@ private:
     bool object_right_movement_roca(QGraphicsPixmapItem *item, unsigned int speed);
     bool object_down_movement(QGraphicsPixmapItem *item, unsigned int speed);
     bool object_up_movement(QGraphicsPixmapItem *item, unsigned int speed);
+    int get_level_from_label();
+    void update_level_in_label(int lives);
     int get_lives_from_label();
     void update_lives_in_label(int lives);
     int get_points_from_label();
@@ -87,10 +88,13 @@ private slots:
     void setup_disparo();
     void set_focus(QGraphicsPixmapItem *item, bool is_x_focus);
     void move_canon_right();
+    //void cambialevel();
 
 signals:
     void game_scene_changed();
     void move_rigtht();
+    void cambio();
+    void loseorwin(bool);
 
 };
 #endif // REGLA_JUEGO_H

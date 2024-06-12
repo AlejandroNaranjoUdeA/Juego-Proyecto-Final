@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>945</width>
+    <width>1120</width>
     <height>654</height>
    </rect>
   </property>
@@ -38,12 +38,12 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>49</width>
+       <width>61</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>nivel: 2</string>
+      <string>nivel: 1</string>
      </property>
     </widget>
     <widget class="QLabel" name="L_vidas">
@@ -51,7 +51,7 @@
       <rect>
        <x>100</x>
        <y>10</y>
-       <width>49</width>
+       <width>71</width>
        <height>16</height>
       </rect>
      </property>
@@ -64,29 +64,29 @@
       <rect>
        <x>200</x>
        <y>10</y>
-       <width>111</width>
+       <width>141</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>puntos</string>
+      <string>puntos: 0</string>
      </property>
     </widget>
    </widget>
    <widget class="QWidget" name="Game_window_2" native="true">
     <property name="geometry">
      <rect>
-      <x>470</x>
+      <x>440</x>
       <y>10</y>
-      <width>411</width>
-      <height>311</height>
+      <width>531</width>
+      <height>381</height>
      </rect>
     </property>
     <widget class="QGraphicsView" name="graphicsView_2">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>60</y>
+       <x>180</x>
+       <y>70</y>
        <width>271</width>
        <height>211</height>
       </rect>
@@ -95,34 +95,24 @@
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>80</y>
+       <x>260</x>
+       <y>90</y>
        <width>121</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;EDAD DE ORO&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
-    <widget class="QLabel" name="backgroundLabel">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>60</y>
-       <width>271</width>
-       <height>211</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
     <widget class="QPushButton" name="pushButton">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>130</y>
+       <x>270</x>
+       <y>140</y>
        <width>80</width>
        <height>24</height>
       </rect>
@@ -134,14 +124,27 @@
     <widget class="QPushButton" name="pushButton_2">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>200</y>
+       <x>270</x>
+       <y>210</y>
        <width>80</width>
        <height>24</height>
       </rect>
      </property>
      <property name="text">
       <string>registrarte</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="backgroundLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>611</width>
+       <height>391</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>
@@ -234,39 +237,6 @@
        <width>113</width>
        <height>24</height>
       </rect>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="Game_window_4" native="true">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>360</y>
-      <width>381</width>
-      <height>311</height>
-     </rect>
-    </property>
-    <widget class="QGraphicsView" name="graphicsView_4">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>30</y>
-       <width>271</width>
-       <height>211</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="imageLabel">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>30</y>
-       <width>271</width>
-       <height>211</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
      </property>
     </widget>
    </widget>

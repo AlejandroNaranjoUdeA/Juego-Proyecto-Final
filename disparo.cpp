@@ -2,7 +2,7 @@
 
 disparo::disparo(unsigned int scale, int x, int y, int w, int h)
 {
-    pixmap_management = new sprites(":/balas.jpeg", scale);
+    pixmap_management = new sprites(":/balas.png", scale);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
     pixmap_management->set_design_size(disparo_pixel_x_size, disparo_pixel_y_size);
     set_animations();

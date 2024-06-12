@@ -1,7 +1,7 @@
 #include "canon.h"
 
 canon::canon(unsigned int scale) {
-    pixmap_management = new sprites(":/canon.jpeg",scale);
+    pixmap_management = new sprites(":/canon.png",scale);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
     pixmap_management->set_design_size(canon_pixel_x_size,
                                        canon_pixel_y_size);

@@ -7,8 +7,8 @@
 #include <cmath>
 #include "sprites.h"
 
-#define enemy_pixel_x_size 31
-#define enemy_pixel_y_size 31
+#define enemy_pixel_x_size 32
+#define enemy_pixel_y_size 32
 #define enemy_speed 1.5
 
 class enemigos: public QObject, public QGraphicsPixmapItem

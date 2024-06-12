@@ -4,21 +4,20 @@ regla_juego::regla_juego(QGraphicsView *graph, QVector<QLabel *> game_labels)
 {
     srand(time(NULL));
     this->graph = graph;
-    labels = game_labels;    
+    labels = game_labels;
     setup_scene();
-    generate_fondo();
-    setup_canon();
     labels[1]->setText("vidas: 7");
-    labels[2]->setText("puntos: 0");
     if (get_nivel_text()=="nivel: 1") generate_nivel1();
     else if (get_nivel_text()=="nivel: 2") generate_nivel2();
     else if (get_nivel_text()=="nivel: 3") generate_nivel3();
+
 }
 
 regla_juego::~regla_juego()
 {
     delete scene;
 }
+
 
 QString regla_juego::get_nivel_text() const {
     if (!labels.isEmpty()) {
@@ -49,8 +48,10 @@ void regla_juego::generate_nivel1() {
     labels[0]->setText("nivel: 1");
     // Semilla para números aleatorios
     srand(time(0));
-    int rock= 1;
-    int ror =1;
+    generate_fondo();
+    setup_canon();
+    //int rock= 1;
+    //int ror =1;
     for (unsigned int col = 4; col < game_map_col; col += 4) {
         // Generar una fila aleatoria para las rocas, excluyendo la primera y la última fila
         unsigned int random_fil = rand() % (game_map_rows - 2) + 1;
@@ -58,6 +59,7 @@ void regla_juego::generate_nivel1() {
             setup_rocas(random_fil, col);
             setup_enemigos(1,col+1);
         }
+        /*
         if (col == 16){
             while (rock != 11){
                 if(rock!=5 && rock !=6){
@@ -68,18 +70,21 @@ void regla_juego::generate_nivel1() {
         }
         if (col == 20){
             while (ror != 11){
-                if(ror!=7 && ror!=8){
+                if(ror!=6 && ror!=7){
                     setup_rocas(ror,col);
                 }
                 ror+=1;
             }
-        }
+        }*/
+
     }
 }
 
 void regla_juego::generate_nivel2() {
     labels[0]->setText("nivel: 2");
     srand(time(0));
+    generate_fondo();
+    setup_canon();
     for (unsigned int col = 4; col < game_map_col; col += 4) {
         // Generar una fila aleatoria para las rocas, excluyendo la primera y la última fila
         unsigned int random_fil = rand() % (game_map_rows - 2) + 1;
@@ -94,7 +99,8 @@ void regla_juego::generate_nivel2() {
             }
         }
         if (col==24){
-            setup_minas(4,col);
+            setup_minas(6,col);
+            setup_minas(1,col);
         }
     }
 }
@@ -104,6 +110,8 @@ void regla_juego::generate_nivel3()
 {
     labels[0]->setText("nivel: 3");
     srand(time(0));
+    generate_fondo();
+    setup_canon();
     int rock= 1;
     for (unsigned int col = 4; col < game_map_col; col += 4) {
         // Generar una fila aleatoria para las rocas, excluyendo la primera y la última fila
@@ -127,8 +135,10 @@ void regla_juego::generate_nivel3()
             }
         }
         if (col==24){
-            setup_minas(4,col);
+            setup_minas(2,col);
         }
+        if (col==16)setup_minas(4,col);
+
     }
 }
 
@@ -198,10 +208,20 @@ void regla_juego::move_canon_right()
 
 void regla_juego::move_object_right(QGraphicsPixmapItem *item, unsigned int speed)
 {
-    if (object_right_movement(item, speed)!=1){
+    if (object_right_movement(item, speed)==false){
         timek->stop();
         timek->deleteLater();
         delete timek;
+        enemies_eliminated =0;
+        int level = get_level_from_label();
+        if (level >= 0)
+        {
+            update_level_in_label(level + 1);
+            if (level+1 == 4) emit loseorwin(true);
+            else if(level != 3) emit loseorwin(false);
+            borrarElementos();
+        }
+
     }
     if (object_right_movement_roca(item, speed))     {
         item->setX(item->x() + speed); // Mueve el objeto a la derecha
@@ -258,26 +278,34 @@ void regla_juego::handle_barco_collision(disparo *bala, QTimer *timer) {
     {
         update_point_in_label(lives + 1000);
     }
-    if (enemies_eliminated == 3||enemies_eliminated == 6 ){
+    qDebug() << "Enemies eliminated: " << enemies_eliminated;
+    if (enemies_eliminated == 3||enemies_eliminated == 6 || enemies_eliminated==11|| enemies_eliminated==14 ||enemies_eliminated==19|| enemies_eliminated==22){
+        qDebug() << "Activating cannon movement";
         timek = new QTimer(this);
         connect(timek, &QTimer::timeout, this, &regla_juego::move_canon_right);
         timek->start(100);
     }
 
-   //int cantidad_enemigos = enemies.size();
-   //if (cantidad_enemigos==0) borrarElementos();
+    int cantidad_enemigos = enemies.size();
+    if (cantidad_enemigos==0) {
+        int level = get_level_from_label();
+        if (level >= 0)
+        {
+            update_level_in_label(level + 1);
+            if (level+1 == 4) emit loseorwin(true);
+        }
+        borrarElementos();        
+    }
 }
 
 void regla_juego::borrarElementos() {
     QList<QGraphicsItem *> elementos = scene->items();
     for (QGraphicsItem *elemento : elementos)
     {
-        if (!dynamic_cast<ecenario *>(elemento))
-        {
-            scene->removeItem(elemento);
-            delete elemento;
-        }
+        scene->removeItem(elemento);
+        delete elemento;
     }
+    emit cambio();
 }
 void regla_juego::handle_roca_collision(disparo *bala, QTimer *timer) {
     // Eliminar la bala y detener el temporizador
@@ -299,6 +327,9 @@ void regla_juego::handle_roca_collision(disparo *bala, QTimer *timer) {
     if (lives > 0)
     {
         update_lives_in_label(lives - 1);
+        if (lives==1){
+            emit loseorwin(false);
+        }
     }
 }
 
@@ -403,6 +434,26 @@ bool regla_juego::object_up_movement(QGraphicsPixmapItem *item, unsigned int spe
     return valid_1 && valid_2;
 }
 
+int regla_juego::get_level_from_label()
+{
+    QString text = labels[0]->text();
+    QStringList parts = text.split(": ");
+    if (parts.size() == 2)
+    {
+        bool ok;
+        int level = parts[1].toInt(&ok);
+        if (ok)
+        {
+            return level;
+        }
+    }
+    return 0;
+}
+void regla_juego::update_level_in_label(int lives)
+{
+    labels[0]->setText("nivel: " + QString::number(lives));
+}
+
 int regla_juego::get_lives_from_label()
 {
     QString text = labels[1]->text();
@@ -447,13 +498,17 @@ void regla_juego::update_point_in_label(int lives)
 
 void regla_juego::setup_scene()
 {
-    graph->setGeometry(0,0,
-                       game_scale_factor*game_map_col*game_map_size_col,
-                       game_scale_factor*game_map_rows*game_map_size_fil);
+    QPoint originalPos = graph->pos();
+
+    // Configurar la geometría de graphicsView
+    graph->setGeometry(0, 0,
+                       game_scale_factor * game_map_col * game_map_size_col,
+                       game_scale_factor * game_map_rows * game_map_size_fil);
     scene = new QGraphicsScene;
-    scene->setSceneRect(0,0,graph->width()-2, graph->height()-2);
+    scene->setSceneRect(0, 0, graph->width() - 2, graph->height() - 2);
     graph->setScene(scene);
 
+    graph->move(originalPos);
     emit game_scene_changed();
 }
 
@@ -465,7 +520,7 @@ void regla_juego::setup_minas(int fil, int col){
 }
 
 bool regla_juego::check_collision_with_mina(QGraphicsPixmapItem *item) {
-    for (auto minas : minass) { // Iterar sobre todos los enemigos
+    for (auto minas : minass) {
         if (item->collidesWithItem(minas)) {
             return true;
         }
@@ -474,14 +529,21 @@ bool regla_juego::check_collision_with_mina(QGraphicsPixmapItem *item) {
 }
 
 void regla_juego::handle_mina_collision(canon *canones, QTimer *timek) {
-    // Eliminar la bala y detener el temporizador
     timek->stop();
     timek->deleteLater();
     for (auto minas : minass) {
         if (canones->collidesWithItem(minas)){
             scene->removeItem(canones);
-            //niveles
+            int level = get_level_from_label();
+            if (level >= 0)
+            {
+                update_level_in_label(level - 1);
+            }
+            labels[2]->setText("puntos: 0");
+            enemies_eliminated =0;
+            borrarElementos();
             break;
         }
     }
 }
+
